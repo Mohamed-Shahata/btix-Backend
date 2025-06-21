@@ -23,8 +23,11 @@ const app = express();
 
 // Middelwares
 app.use(cors({
-  origin: "*"
-}))
+  origin: "https://btix-frontend-git-main-mohameds-projects-f5551999.vercel.app/",
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+}));
 app.use(express.json());
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }))
