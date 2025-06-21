@@ -24,7 +24,8 @@ const app = express();
 // Middelwares
 const allowedOrigins = [
   process.env.CLIENT_ORIGIN,
-  'http://localhost:3000'
+  'https://btix-frontend-l955khoq2-mohameds-projects-f5551999.vercel.app',
+  'https://btix-frontend-git-main-mohameds-projects-f5551999.vercel.app'
 ];
 
 app.use(cors({
