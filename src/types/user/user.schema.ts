@@ -14,7 +14,7 @@ export const registerSchema = z.object({
 })
 
 export const vrificationCodeSchema = z.object({
-  vrificationCode: z.string(),
+  verificationCode: z.string(),
   email: z.string().email(),
 })
 

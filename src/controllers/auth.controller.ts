@@ -34,18 +34,18 @@ export const vrificationCode = async (req: Request, res: Response): Promise<void
   if (!result.success) {
     throw new AppError(VALIDATION_ERROR, Status.BAD_REQUEST, result.error.flatten().fieldErrors)
   }
-  const { vrificationCode, email } = result.data;
+  const { verificationCode, email } = result.data;
 
   const user = await User.findOne({ email });
 
   if (!user)
     throw new AppError(USER_NOT_FOUND, Status.NOT_FOUND);
 
-  if (user.vrificationCode !== vrificationCode)
+  if (user.verificationCode !== verificationCode)
     throw new AppError("Code is wrong, try again", Status.NOT_FOUND);
 
 
-  user.vrificationCode = null;
+  user.verificationCode = null;
   user.isVerified = true;
   user.save();
 

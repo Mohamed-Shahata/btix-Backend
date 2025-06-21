@@ -12,7 +12,7 @@ const userSchema = new mongoose_1.Schema({
     gender: {
         type: String, enum: user_enum_1.Gender, default: user_enum_1.Gender.MALE
     },
-    vrificationCode: {
+    verificationCode: {
         type: String, default: null
     },
     isVerified: {

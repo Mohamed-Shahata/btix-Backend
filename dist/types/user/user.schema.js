@@ -14,6 +14,6 @@ exports.registerSchema = zod_1.z.object({
     password: zod_1.z.string().min(8)
 });
 exports.vrificationCodeSchema = zod_1.z.object({
-    vrificationCode: zod_1.z.string(),
+    verificationCode: zod_1.z.string(),
     email: zod_1.z.string().email(),
 });

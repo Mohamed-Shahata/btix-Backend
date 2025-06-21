@@ -29,13 +29,13 @@ const vrificationCode = async (req, res) => {
     if (!result.success) {
         throw new errorHandlerClass_1.AppError(constant_1.VALIDATION_ERROR, statusCode_1.Status.BAD_REQUEST, result.error.flatten().fieldErrors);
     }
-    const { vrificationCode, email } = result.data;
+    const { verificationCode, email } = result.data;
     const user = await user_model_1.default.findOne({ email });
     if (!user)
         throw new errorHandlerClass_1.AppError(constant_1.USER_NOT_FOUND, statusCode_1.Status.NOT_FOUND);
-    if (user.vrificationCode !== vrificationCode)
+    if (user.verificationCode !== verificationCode)
         throw new errorHandlerClass_1.AppError("Code is wrong, try again", statusCode_1.Status.NOT_FOUND);
-    user.vrificationCode = null;
+    user.verificationCode = null;
     user.isVerified = true;
     user.save();
     res.status(statusCode_1.Status.CREATED).json({

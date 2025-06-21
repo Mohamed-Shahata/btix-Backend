@@ -13,7 +13,7 @@ const userSchema: Schema<IUserDocument> = new Schema<IUserDocument>({
   gender: {
     type: String, enum: Gender, default: Gender.MALE
   },
-  vrificationCode: {
+  verificationCode: {
     type: String, default: null
   },
   isVerified: {

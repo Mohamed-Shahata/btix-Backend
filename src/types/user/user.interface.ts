@@ -8,7 +8,7 @@ export interface IUser {
   email: string,
   gender: Gender,
   roleInTeam: RolesTeam | null,
-  vrificationCode: string | null,
+  verificationCode: string | null,
   isVerified: boolean,
   password: string,
   role: RolesType
