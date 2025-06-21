@@ -7,7 +7,7 @@ import { createChallengeSchema } from "../types/challenge/challenge.schema";
 import Challenge from "../models/challenges.model";
 import Marathon from "../models/marathon.model";
 
-
+//
 export const createChallenge = async (req: Request, res: Response) => {
 
   const marathon = await Marathon.findById(req.body.marathonId);
