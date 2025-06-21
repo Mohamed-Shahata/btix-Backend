@@ -33,7 +33,7 @@ const app = express();
 // });
 
 app.use(cors({
-  origin: '*'
+  origin: 'https://btix-frontend-git-main-mohameds-projects-f5551999.vercel.app'
 }));
 
 app.use(express.json());
