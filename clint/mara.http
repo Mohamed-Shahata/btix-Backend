@@ -1,0 +1,15 @@
+### re
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NGFiZTFkOWM0YTE2NDNkM2IwNmY2NyIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE3NTAxMDI0MjYsImV4cCI6MTc1MDE4ODgyNn0.eNswmWEhzFSWC9g7-JAtPfp3zdgsLAARtbRjAXn6VIY
+
+{
+    "name":"DOODS fome",
+    "marathonId":"684f1c62175809ee3eb4ac0d"
+}
+
+### re
+GET http://localhost:5000/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NTM0NzExNmRjYjVhZTVhMzJmZjZhOCIsInJvbGUiOiJtZW1iZXIiLCJpYXQiOjE3NTAyODgzNTksImV4cCI6MTc1MDM3NDc1OX0.gvDjUfCK9q5st6xY4hH37CgJ6Om5W2InyYhQXbHwOLc
+
+
