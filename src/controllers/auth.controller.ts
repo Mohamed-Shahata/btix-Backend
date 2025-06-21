@@ -41,10 +41,7 @@ export const vrificationCode = async (req: Request, res: Response): Promise<void
   if (!user)
     throw new AppError(USER_NOT_FOUND, Status.NOT_FOUND);
 
-  console.log(typeof (verificationCode), verificationCode)
-  console.log(user)
-  console.log(typeof (user.verificationCode), user.verificationCode)
-  // console.log(String(user.verificationCode) !== String(verificationCode))
+
   if (String(user.verificationCode) !== String(verificationCode))
     throw new AppError("Code is wrong, try again", Status.NOT_FOUND);
 
