@@ -21,12 +21,12 @@ const app = express();
 
 // CORS Configuration
 const allowedOrigins = [
-  "https://btix-frontend.vercel.app", // الموقع الحقيقي
-  "http://localhost:3000",             // للتجربة المحلية
+  "https://btix-frontend.vercel.app",
+  "http://localhost:3000"
 ];
 
-app.use(cors({
-  origin: function (origin, callback) {
+const corsOptions = {
+  origin: function (origin: any, callback: any) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -34,8 +34,10 @@ app.use(cors({
     }
   },
   credentials: true
-}));
+};
 
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // دي مهمة جداً لل OPTIONS
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
