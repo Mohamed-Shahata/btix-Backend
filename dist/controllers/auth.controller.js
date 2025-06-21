@@ -33,8 +33,9 @@ const vrificationCode = async (req, res) => {
     const user = await user_model_1.default.findOne({ email });
     if (!user)
         throw new errorHandlerClass_1.AppError(constant_1.USER_NOT_FOUND, statusCode_1.Status.NOT_FOUND);
-    console.log(verificationCode);
-    console.log(String(user.verificationCode) !== String(verificationCode));
+    console.log(typeof (verificationCode), verificationCode);
+    console.log(typeof (user.verificationCode), user.verificationCode);
+    // console.log(String(user.verificationCode) !== String(verificationCode))
     if (String(user.verificationCode) !== String(verificationCode))
         throw new errorHandlerClass_1.AppError("Code is wrong, try again", statusCode_1.Status.NOT_FOUND);
     user.verificationCode = null;
