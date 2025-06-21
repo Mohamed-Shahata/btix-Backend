@@ -9,7 +9,7 @@ import teamsRoutes from "./routes/team.route";
 import marathonsRoutes from "./routes/marathon.route";
 import challengesRoutes from "./routes/challenge.route";
 import submissionsRoutes from "./routes/submission.route";
-import leaderboardsRoutes from "./routes/leaderboard..route";
+import leaderboardsRoutes from "./routes/leaderboard.route";
 import errorHandler from "./utils/errorHandler";
 import "./cronJobs/deleteOld";
 
