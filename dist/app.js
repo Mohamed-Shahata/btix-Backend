@@ -17,14 +17,19 @@ const submission_route_1 = __importDefault(require("./routes/submission.route"))
 const leaderboard__route_1 = __importDefault(require("./routes/leaderboard..route"));
 const errorHandler_1 = __importDefault(require("./utils/errorHandler"));
 require("./cronJobs/deleteOld");
-(0, dotenv_1.config)({ path: ".env.development" });
-// Connection DB
+(0, dotenv_1.config)();
 (0, db_connection_1.default)();
 const app = (0, express_1.default)();
-// Middelwares
+// CORS Configuration
 app.use((0, cors_1.default)({
-    origin: "http://localhost:3000"
+    origin: true, // بيسمح بأي origin
+    credentials: true
 }));
+app.options("*", (0, cors_1.default)({
+    origin: true,
+    credentials: true
+}));
+// Middlewares
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.urlencoded({ extended: true }));
