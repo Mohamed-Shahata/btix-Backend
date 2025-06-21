@@ -22,25 +22,15 @@ connextion_db();
 const app = express();
 
 // Middelwares
-const allowedOrigins = [
-  process.env.CLIENT_ORIGIN,
-  'https://btix-frontend-l955khoq2-mohameds-projects-f5551999.vercel.app',
-  'https://btix-frontend-git-main-mohameds-projects-f5551999.vercel.app'
-];
+app.use((req, res, next) => {
+  res.set({
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "*",
+    "Access-Control-Allow-Headers": "'Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token'",
+  });
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log("❌ Origin not allowed:", origin);
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+  next();
+});
 
 app.use(express.json());
 app.use(cookieParser())
