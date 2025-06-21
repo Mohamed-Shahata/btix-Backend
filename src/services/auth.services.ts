@@ -18,7 +18,7 @@ export const registerServices = async (body: RegisterInput) => {
 
   const code = Math.floor(100000 + Math.random() * 900000);
 
-  const user = await User.create({ ...body, password: hashPassword, vrificationCode: code });
+  const user = await User.create({ ...body, password: hashPassword, verificationCode: code });
 
   sendMail({ to: user.email, subject: "welcom", template: "sendVerificationCode.ejs", data: { code } })
 

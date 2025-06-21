@@ -1,5 +1,5 @@
 import express from "express";
-// import cookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
 import { config } from "dotenv";
 import cors from "cors";
 import connextion_db from "./config/db-connection";
@@ -40,7 +40,7 @@ app.use(cors(corsOptions));
 
 // Middlewares
 app.use(express.json());
-// app.use(cookieParser());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes

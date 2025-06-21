@@ -51,12 +51,12 @@ const login = async (req, res) => {
     }
     const validationData = result.data;
     const { user, accessToken } = await (0, auth_services_1.loginServices)(validationData);
-    // res.cookie(ACCESS_TOKEN, accessToken, {
-    //   httpOnly: true,
-    //   secure: true,
-    //   sameSite: "none",
-    //   maxAge: 7 * 24 * 60 * 60 * 1000 // 7d
-    // })
+    res.cookie(constant_1.ACCESS_TOKEN, accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7d
+    });
     user.password = "";
     res.status(statusCode_1.Status.OK).json({
         success: true,
