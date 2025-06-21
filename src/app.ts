@@ -14,7 +14,7 @@ import errorHandler from "./utils/errorHandler";
 import "./cronJobs/deleteOld"
 
 
-config({ path: ".env.development" });
+config();
 
 // Connection DB
 connextion_db();
@@ -23,16 +23,16 @@ const app = express();
 
 // Middelwares
 const allowedOrigins = [
-  "http://localhost:3000",
-  "https://btix-frontend-git-main-mohameds-projects-f5551999.vercel.app"
+  process.env.CLIENT_ORIGIN,
+  'http://localhost:3000'
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // لو مفيش origin (زي Postman) نسمح عادي
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log("❌ Origin not allowed:", origin);
       callback(new Error("Not allowed by CORS"));
     }
   },
