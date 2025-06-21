@@ -72,8 +72,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   res.cookie(ACCESS_TOKEN, accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === PRODUCTION,
-    sameSite: "strict",
-    maxAge: 1 * 24 * 60 * 60 * 1000 // 1d
+    sameSite: "none",
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7d
   })
 
   user.password = "";
