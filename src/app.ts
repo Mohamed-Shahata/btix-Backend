@@ -22,8 +22,9 @@ const app = express();
 // CORS Configuration
 
 app.use(cors({
-  origin: "https://btix-frontend.vercel.app", // هنا تحط الدومين بتاع الفرونت
-  credentials: true, // علشان يبعث كوكي
+  origin: 'https://btix-frontend.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  credentials: true
 }));
 
 
