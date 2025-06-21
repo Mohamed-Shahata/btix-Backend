@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import Marathon from "../models/marathon.model";
-import { AppError } from "../utils/errorHandlerClass";
 import { Status } from "../utils/statusCode";
 import Team from "../models/team.model";
 

@@ -1,8 +1,7 @@
 import { Router } from "express";
 import * as challengeController from "../controllers/challenge.controller"
 import expressAsyncHandler from "express-async-handler";
-import { auth, authorizedRoles } from "../middlewares/auth.middleware";
-import { RolesType } from "../types/user/user.enum";
+import { auth } from "../middlewares/auth.middleware";
 
 const router = Router();
 

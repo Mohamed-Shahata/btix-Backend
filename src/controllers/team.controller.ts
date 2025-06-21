@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { createTeamSchema } from "../types/team/team.schema";
 import { AppError } from "../utils/errorHandlerClass";
-import { MAX_TEAM_LENGTH, USER_NOT_FOUND, VALIDATION_ERROR } from "../utils/constant";
+import { USER_NOT_FOUND, VALIDATION_ERROR } from "../utils/constant";
 import { Status } from "../utils/statusCode";
 import Team from "../models/team.model";
 import User from "../models/user.model";

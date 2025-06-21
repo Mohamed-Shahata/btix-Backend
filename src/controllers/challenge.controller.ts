@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { Status } from "../utils/statusCode";
-import { getUserServices } from "../services/user.services";
 import { AppError } from "../utils/errorHandlerClass";
-import { USER_NOT_FOUND, VALIDATION_ERROR } from "../utils/constant";
+import { VALIDATION_ERROR } from "../utils/constant";
 import { createChallengeSchema } from "../types/challenge/challenge.schema";
 import Challenge from "../models/challenges.model";
 import Marathon from "../models/marathon.model";
