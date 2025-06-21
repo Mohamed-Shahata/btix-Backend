@@ -3,48 +3,37 @@ import cookieParser from "cookie-parser";
 import { config } from "dotenv";
 import cors from "cors";
 import connextion_db from "./config/db-connection";
-import authRoutes from "./routes/auth.route"
-import usersRoutes from "./routes/user.route"
-import teamsRoutes from "./routes/team.route"
-import marathonsRoutes from "./routes/marathon.route"
-import challengesRoutes from "./routes/challenge.route"
-import submissionsRoutes from "./routes/submission.route"
-import leaderboardsRoutes from "./routes/leaderboard..route"
+import authRoutes from "./routes/auth.route";
+import usersRoutes from "./routes/user.route";
+import teamsRoutes from "./routes/team.route";
+import marathonsRoutes from "./routes/marathon.route";
+import challengesRoutes from "./routes/challenge.route";
+import submissionsRoutes from "./routes/submission.route";
+import leaderboardsRoutes from "./routes/leaderboard.route"; // Fixed typo: leaderboard..route -> leaderboard.route
 import errorHandler from "./utils/errorHandler";
-import "./cronJobs/deleteOld"
-
+import "./cronJobs/deleteOld";
 
 config();
 
-// Connection DB
+// Connect to Database
 connextion_db();
 
 const app = express();
 
-// Middelwares
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-//   res.setHeader("Access-Control-Max-Age", "1800");
-//   res.setHeader("Access-Control-Allow-Headers", "content-type");
-//   res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS");
+// CORS Configuration
+app.use(
+  cors({
+    origin: "*", // Allow all origins (use cautiously in production)
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // Allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+    credentials: true, // Allow cookies/credentials (if needed)
+  })
+);
 
-//   next();
-// });
-
-app.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://btix-frontend.vercel.app"
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
-
+// Other Middlewares
 app.use(express.json());
-app.use(cookieParser())
-app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/auth", authRoutes);
