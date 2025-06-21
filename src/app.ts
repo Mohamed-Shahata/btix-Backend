@@ -22,7 +22,7 @@ const app = express();
 // CORS Configuration
 
 app.use(cors({
-  origin: "https://btix-frontend.vercel.app",
+  origin: "*",
   credentials: true
 }))
 
