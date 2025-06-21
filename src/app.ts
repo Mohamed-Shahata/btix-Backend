@@ -22,10 +22,23 @@ connextion_db();
 const app = express();
 
 // Middelwares
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://btix-frontend-git-main-mohameds-projects-f5551999.vercel.app"
+];
+
 app.use(cors({
-  origin: '*',
-  methods: "GET, POST, PUT, PATCH, DELETE",
-  credentials: true
+  origin: function (origin, callback) {
+    // لو مفيش origin (زي Postman) نسمح عادي
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json());
