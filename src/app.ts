@@ -22,12 +22,12 @@ connextion_db();
 const app = express();
 
 // Middelwares
-app.use(cors({
-  origin: "https://btix-frontend-git-main-mohameds-projects-f5551999.vercel.app/",
-  credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-}));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://btix-frontend-git-main-mohameds-projects-f5551999.vercel.app");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  next();
+});
 app.use(express.json());
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }))
