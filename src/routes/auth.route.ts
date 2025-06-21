@@ -7,7 +7,7 @@ const router = Router();
 
 router.post("/register", expressAsyncHandler(authController.register));
 
-router.post("/vrificationCode", expressAsyncHandler(authController.vrificationCode));
+router.post("/verificationCode", expressAsyncHandler(authController.vrificationCode));
 
 router.post("/login", expressAsyncHandler(authController.login));
 
