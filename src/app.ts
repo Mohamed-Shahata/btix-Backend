@@ -15,15 +15,21 @@ import "./cronJobs/deleteOld";
 
 config();
 
-// Connect to Database
 connextion_db();
 
 const app = express();
 
 // CORS Configuration
-app.use(cors({ origin: "*", credentials: true }));
+app.use(
+  cors({
+    origin: ["https://btix-frontend.vercel.app"], // الـ origin بتاع الـ frontend
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // ضروري عشان withCredentials: true في الـ frontend
+  })
+);
 
-// Other Middlewares
+// Middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
