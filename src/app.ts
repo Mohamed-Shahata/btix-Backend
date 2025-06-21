@@ -20,24 +20,14 @@ connextion_db();
 const app = express();
 
 // CORS Configuration
-const allowedOrigins = [
-  "https://btix-frontend.vercel.app",
-  "http://localhost:3000"
-];
-
-const corsOptions = {
-  origin: function (origin: any, callback: any) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+app.use(cors({
+  origin: true,  // بيسمح بأي origin
   credentials: true
-};
-
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // دي مهمة جداً لل OPTIONS
+}));
+app.options("*", cors({
+  origin: true,
+  credentials: true
+}));
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
