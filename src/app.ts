@@ -22,9 +22,8 @@ const app = express();
 // CORS Configuration
 
 app.use(cors({
-  origin: 'https://btix-frontend-b7jyw0h4n-mohameds-projects-f5551999.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-  credentials: true
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
 }));
 
 

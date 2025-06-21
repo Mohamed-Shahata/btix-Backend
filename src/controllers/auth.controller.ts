@@ -69,12 +69,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
   const { user, accessToken } = await loginServices(validationData);
 
-  res.cookie(ACCESS_TOKEN, accessToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7d
-  })
+  // res.cookie(ACCESS_TOKEN, accessToken, {
+  //   httpOnly: true,
+  //   secure: true,
+  //   sameSite: "none",
+  //   maxAge: 7 * 24 * 60 * 60 * 1000 // 7d
+  // })
 
   user.password = "";
 
