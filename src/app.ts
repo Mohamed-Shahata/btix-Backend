@@ -32,9 +32,25 @@ const app = express();
 //   next();
 // });
 
+const allowedOrigins = [
+  'https://btix-frontend.vercel.app',
+  'https://btix-frontend-git-main-mohameds-projects-f5551999.vercel.app',
+  'http://localhost:3000'
+];
+
 app.use(cors({
-  origin: 'https://btix-frontend-git-main-mohameds-projects-f5551999.vercel.app',
-credentials: true
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // Postman or same-origin
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      console.log("❌ Origin not allowed by CORS:", origin);
+      return callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json());
