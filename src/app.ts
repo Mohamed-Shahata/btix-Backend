@@ -1,5 +1,5 @@
 import express from "express";
-import cookieParser from "cookie-parser";
+// import cookieParser from "cookie-parser";
 import { config } from "dotenv";
 import cors from "cors";
 import connextion_db from "./config/db-connection";
@@ -13,9 +13,9 @@ import leaderboardsRoutes from "./routes/leaderboard.route";
 import errorHandler from "./utils/errorHandler";
 import "./cronJobs/deleteOld";
 
-config();
 
 connextion_db();
+config();
 
 const app = express();
 
@@ -37,10 +37,10 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // دي مهمة جداً لل OPTIONS
+
 // Middlewares
 app.use(express.json());
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes

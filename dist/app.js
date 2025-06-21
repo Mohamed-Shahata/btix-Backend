@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const cookie_parser_1 = __importDefault(require("cookie-parser"));
+// import cookieParser from "cookie-parser";
 const dotenv_1 = require("dotenv");
 const cors_1 = __importDefault(require("cors"));
 const db_connection_1 = __importDefault(require("./config/db-connection"));
@@ -17,8 +17,8 @@ const submission_route_1 = __importDefault(require("./routes/submission.route"))
 const leaderboard_route_1 = __importDefault(require("./routes/leaderboard.route"));
 const errorHandler_1 = __importDefault(require("./utils/errorHandler"));
 require("./cronJobs/deleteOld");
-(0, dotenv_1.config)();
 (0, db_connection_1.default)();
+(0, dotenv_1.config)();
 const app = (0, express_1.default)();
 // CORS Configuration
 const allowedOrigins = [
@@ -37,10 +37,9 @@ const corsOptions = {
     credentials: true
 };
 app.use((0, cors_1.default)(corsOptions));
-app.options("*", (0, cors_1.default)(corsOptions)); // دي مهمة جداً لل OPTIONS
 // Middlewares
 app.use(express_1.default.json());
-app.use((0, cookie_parser_1.default)());
+// app.use(cookieParser());
 app.use(express_1.default.urlencoded({ extended: true }));
 // Routes
 app.use("/auth", auth_route_1.default);
