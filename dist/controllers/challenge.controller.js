@@ -10,6 +10,7 @@ const constant_1 = require("../utils/constant");
 const challenge_schema_1 = require("../types/challenge/challenge.schema");
 const challenges_model_1 = __importDefault(require("../models/challenges.model"));
 const marathon_model_1 = __importDefault(require("../models/marathon.model"));
+//
 const createChallenge = async (req, res) => {
     const marathon = await marathon_model_1.default.findById(req.body.marathonId);
     if (!marathon)

@@ -23,7 +23,7 @@ const app = express();
 
 // Middelwares
 app.use(cors({
-  origin: "http://localhost:3000"
+  origin: "https://btix-frontend-git-main-mohameds-projects-f5551999.vercel.app/"
 }))
 app.use(express.json());
 app.use(cookieParser())
