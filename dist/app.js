@@ -21,14 +21,23 @@ require("./cronJobs/deleteOld");
 (0, db_connection_1.default)();
 const app = (0, express_1.default)();
 // CORS Configuration
-app.use((0, cors_1.default)({
-    origin: true, // بيسمح بأي origin
+const allowedOrigins = [
+    "https://btix-frontend.vercel.app",
+    "http://localhost:3000"
+];
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     credentials: true
-}));
-app.options("*", (0, cors_1.default)({
-    origin: true,
-    credentials: true
-}));
+};
+app.use((0, cors_1.default)(corsOptions));
+app.options("*", (0, cors_1.default)(corsOptions)); // دي مهمة جداً لل OPTIONS
 // Middlewares
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
