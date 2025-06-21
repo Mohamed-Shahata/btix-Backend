@@ -9,7 +9,7 @@ import teamsRoutes from "./routes/team.route";
 import marathonsRoutes from "./routes/marathon.route";
 import challengesRoutes from "./routes/challenge.route";
 import submissionsRoutes from "./routes/submission.route";
-import leaderboardsRoutes from "./routes/leaderboard..route"; // Fixed typo: leaderboard..route -> leaderboard.route
+import leaderboardsRoutes from "./routes/leaderboard..route";
 import errorHandler from "./utils/errorHandler";
 import "./cronJobs/deleteOld";
 
@@ -23,10 +23,10 @@ const app = express();
 // CORS Configuration
 app.use(
   cors({
-    origin: "*", // Allow all origins (use cautiously in production)
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // Allowed HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
-    credentials: true, // Allow cookies/credentials (if needed)
+    origin: ["https://btix-frontend.vercel.app"], // الـ origin بتاع الـ frontend
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // لو بتستخدم cookies أو authentication
   })
 );
 
