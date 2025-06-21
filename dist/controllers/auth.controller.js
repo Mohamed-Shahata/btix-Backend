@@ -34,6 +34,7 @@ const vrificationCode = async (req, res) => {
     if (!user)
         throw new errorHandlerClass_1.AppError(constant_1.USER_NOT_FOUND, statusCode_1.Status.NOT_FOUND);
     console.log(typeof (verificationCode), verificationCode);
+    console.log(user);
     console.log(typeof (user.verificationCode), user.verificationCode);
     // console.log(String(user.verificationCode) !== String(verificationCode))
     if (String(user.verificationCode) !== String(verificationCode))
