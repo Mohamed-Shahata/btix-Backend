@@ -20,15 +20,25 @@ connextion_db();
 const app = express();
 
 // CORS Configuration
-app.use(
-  cors({
-    origin: ["https://btix-frontend.vercel.app"], // الـ origin بتاع الـ frontend
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // ضروري عشان withCredentials: true في الـ frontend
-  })
-);
+const allowedOrigins = [
+  'https://btix-frontend.vercel.app',
+  'https://btix-frontend-git-main-mohameds-projects-f5551999.vercel.app',
+  'http://localhost:3000'
+];
 
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log("❌ Origin not allowed by CORS:", origin);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
