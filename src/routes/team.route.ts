@@ -10,7 +10,7 @@ const router = Router();
 router.post(
   "/",
   auth,
-  authorizedRoles(RolesType.MEMBER),
+  authorizedRoles(RolesType.MEMBER,RolesType.ADMIN),
   expressAsyncHandler(teamController.createTeam)
 );
 
