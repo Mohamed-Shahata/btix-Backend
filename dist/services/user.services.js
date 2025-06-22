@@ -8,7 +8,7 @@ const user_model_1 = __importDefault(require("../models/user.model"));
 const getUserServices = (id) => {
     return user_model_1.default.findById(id).populate({
         path: "teamId",
-        select: "marathonId"
+        select: "marathonId name"
     });
 };
 exports.getUserServices = getUserServices;

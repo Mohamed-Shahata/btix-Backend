@@ -16,6 +16,18 @@ const userSchema: Schema<IUserDocument> = new Schema<IUserDocument>({
   verificationCode: {
     type: String, default: null
   },
+  bio: {
+    type: String, default: ""
+  },
+  job: {
+    type: String, default: ""
+  },
+  address: {
+    type: String, default: ""
+  },
+  githubAccount: {
+    type: String, default: ""
+  },
   isVerified: {
     type: Boolean, default: false
   },

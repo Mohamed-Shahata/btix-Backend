@@ -3,14 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUser = exports.getAllUsers = exports.getMe = void 0;
+exports.updateUser = exports.getUser = exports.getAllUsers = exports.getMe = void 0;
 const statusCode_1 = require("../utils/statusCode");
 const user_services_1 = require("../services/user.services");
 const errorHandlerClass_1 = require("../utils/errorHandlerClass");
 const constant_1 = require("../utils/constant");
 const user_model_1 = __importDefault(require("../models/user.model"));
+const user_schema_1 = require("../types/user/user.schema");
 const getMe = async (req, res) => {
-    const user = await user_model_1.default.findById(req.user?.id).select("email username roleInTeam teamId role gender").populate({
+    const user = await user_model_1.default.findById(req.user?.id).select("email username roleInTeam teamId role gender bio address job githubAccount").populate({
         path: "teamId",
         select: "marathonId"
     });
@@ -36,12 +37,28 @@ const getUser = async (req, res) => {
         throw new errorHandlerClass_1.AppError(constant_1.USER_NOT_FOUND, statusCode_1.Status.NOT_FOUND);
     res.status(statusCode_1.Status.OK).json({
         success: true,
-        user: {
-            _id: user?._id,
-            username: user?.username,
-            email: user?.email,
-            role: user?.role
-        }
+        user
     });
 };
 exports.getUser = getUser;
+const updateUser = async (req, res) => {
+    const user = await user_model_1.default.findById(req.user?.id);
+    if (!user)
+        throw new errorHandlerClass_1.AppError(constant_1.USER_NOT_FOUND, statusCode_1.Status.NOT_FOUND);
+    const result = user_schema_1.updateUserSchema.safeParse(req.body);
+    if (!result.success)
+        throw new errorHandlerClass_1.AppError(constant_1.VALIDATION_ERROR, statusCode_1.Status.BAD_REQUEST, result.error.flatten().fieldErrors);
+    const { username, address, bio, gender, githubAccount, job } = result.data;
+    user.username = username || user.username;
+    user.address = address || user.address;
+    user.bio = bio || user.bio;
+    user.gender = gender || user.gender;
+    user.githubAccount = githubAccount || user.githubAccount;
+    user.job = job || user.job;
+    user.save();
+    res.status(statusCode_1.Status.OK).json({
+        success: true,
+        message: "Updated successfully"
+    });
+};
+exports.updateUser = updateUser;

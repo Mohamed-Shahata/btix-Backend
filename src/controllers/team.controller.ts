@@ -85,7 +85,7 @@ export const getTeam = async (req: Request, res: Response) => {
       select: "-_id title startDate endDate isActive"
     }, {
       path: "members",
-      select: "username"
+      select: "username roleInTeam"
     }])
 
   if (!team)

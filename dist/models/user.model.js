@@ -15,6 +15,18 @@ const userSchema = new mongoose_1.Schema({
     verificationCode: {
         type: String, default: null
     },
+    bio: {
+        type: String, default: ""
+    },
+    job: {
+        type: String, default: ""
+    },
+    address: {
+        type: String, default: ""
+    },
+    githubAccount: {
+        type: String, default: ""
+    },
     isVerified: {
         type: Boolean, default: false
     },

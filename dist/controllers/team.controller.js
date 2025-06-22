@@ -68,7 +68,7 @@ const getTeam = async (req, res) => {
             select: "-_id title startDate endDate isActive"
         }, {
             path: "members",
-            select: "username"
+            select: "username roleInTeam"
         }]);
     if (!team)
         throw new errorHandlerClass_1.AppError("Team Not Found", statusCode_1.Status.NOT_FOUND);
