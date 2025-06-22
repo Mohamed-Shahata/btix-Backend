@@ -42,7 +42,7 @@ const express_async_handler_1 = __importDefault(require("express-async-handler")
 const auth_middleware_1 = require("../middlewares/auth.middleware");
 const user_enum_1 = require("../types/user/user.enum");
 const router = (0, express_1.Router)();
-router.post("/", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRoles)(user_enum_1.RolesType.MEMBER), (0, express_async_handler_1.default)(teamController.createTeam));
+router.post("/", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRoles)(user_enum_1.RolesType.MEMBER, user_enum_1.RolesType.ADMIN), (0, express_async_handler_1.default)(teamController.createTeam));
 router.get("/myTeam", auth_middleware_1.auth, (0, express_async_handler_1.default)(teamController.getMyTeam));
 router.put("/join/:teamId", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRoles)(user_enum_1.RolesType.MEMBER), (0, express_async_handler_1.default)(teamController.joinTeam));
 router.get("/:teamId/requests", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRolesTeam)(user_enum_1.RolesTeam.LEADER), (0, express_async_handler_1.default)(teamController.getRequestJoinTeam));
