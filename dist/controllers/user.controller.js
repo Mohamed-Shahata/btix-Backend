@@ -3,13 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.getUser = exports.getAllUsers = exports.getMe = void 0;
+exports.deleteUser = exports.updateUser = exports.getUser = exports.getAllUsers = exports.getMe = void 0;
 const statusCode_1 = require("../utils/statusCode");
 const user_services_1 = require("../services/user.services");
 const errorHandlerClass_1 = require("../utils/errorHandlerClass");
 const constant_1 = require("../utils/constant");
 const user_model_1 = __importDefault(require("../models/user.model"));
 const user_schema_1 = require("../types/user/user.schema");
+const team_model_1 = __importDefault(require("../models/team.model"));
 const getMe = async (req, res) => {
     const user = await user_model_1.default.findById(req.user?.id).select("email username roleInTeam teamId role gender bio address job githubAccount").populate({
         path: "teamId",
@@ -62,3 +63,21 @@ const updateUser = async (req, res) => {
     });
 };
 exports.updateUser = updateUser;
+const deleteUser = async (req, res) => {
+    const user = await user_model_1.default.findById(req.user?.id);
+    if (!user)
+        throw new errorHandlerClass_1.AppError(constant_1.USER_NOT_FOUND, statusCode_1.Status.NOT_FOUND);
+    if (user.teamId) {
+        const team = await team_model_1.default.findById(user.teamId);
+        if (team) {
+            team.members = team.members.filter((memberId) => String(memberId) !== String(user._id));
+            await team.save();
+        }
+    }
+    await user_model_1.default.findByIdAndDelete(user._id);
+    res.status(statusCode_1.Status.OK).json({
+        success: true,
+        message: "User deleted successfully",
+    });
+};
+exports.deleteUser = deleteUser;

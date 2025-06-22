@@ -46,4 +46,5 @@ router.get("/me", auth_middleware_1.auth, (0, express_async_handler_1.default)(u
 router.get("/", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRoles)(user_enum_1.RolesType.ADMIN), (0, express_async_handler_1.default)(userController.getAllUsers));
 router.get("/:id", auth_middleware_1.auth, (0, express_async_handler_1.default)(userController.getUser));
 router.put("/:id", auth_middleware_1.auth, auth_middleware_1.CheckAccountOwner, (0, express_async_handler_1.default)(userController.updateUser));
+router.delete("/:id", auth_middleware_1.auth, auth_middleware_1.CheckAccountOwner, (0, express_async_handler_1.default)(userController.deleteUser));
 exports.default = router;

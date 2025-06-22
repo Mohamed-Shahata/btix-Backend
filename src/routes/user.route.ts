@@ -15,5 +15,7 @@ router.get("/:id", auth, expressAsyncHandler(userController.getUser));
 
 router.put("/:id", auth, CheckAccountOwner, expressAsyncHandler(userController.updateUser));
 
+router.delete("/:id", auth, CheckAccountOwner, expressAsyncHandler(userController.deleteUser));
+
 
 export default router;

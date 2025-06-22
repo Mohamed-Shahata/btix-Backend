@@ -5,6 +5,7 @@ import { AppError } from "../utils/errorHandlerClass";
 import { USER_NOT_FOUND, VALIDATION_ERROR } from "../utils/constant";
 import User from "../models/user.model";
 import { updateUserSchema } from "../types/user/user.schema";
+import Team from "../models/team.model";
 
 
 export const getMe = async (req: Request, res: Response) => {
@@ -70,5 +71,28 @@ export const updateUser = async (req: Request, res: Response) => {
   res.status(Status.OK).json({
     success: true,
     message: "Updated successfully"
+  });
+}
+
+export const deleteUser = async (req: Request, res: Response) => {
+
+  const user = await User.findById(req.user?.id);
+
+  if (!user)
+    throw new AppError(USER_NOT_FOUND, Status.NOT_FOUND);
+
+  if (user.teamId) {
+    const team = await Team.findById(user.teamId);
+    if (team) {
+      team.members = team.members.filter((memberId) => String(memberId) !== String(user._id));
+      await team.save();
+    }
+  }
+
+  await User.findByIdAndDelete(user._id);
+
+  res.status(Status.OK).json({
+    success: true,
+    message: "User deleted successfully",
   });
 }
