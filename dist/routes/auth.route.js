@@ -54,6 +54,7 @@ router.get('/google/callback', passport_1.default.authenticate('google', {
     failureRedirect: "https://btix-frontend.vercel.app/login",
 }), (req, res) => {
     const { token, isNewUser } = req.user;
+    console.log(isNewUser);
     if (isNewUser) {
         res.redirect(`https://btix-frontend.vercel.app/updatePassword?token=${token}`);
     }
