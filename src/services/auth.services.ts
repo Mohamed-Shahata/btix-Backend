@@ -3,8 +3,9 @@ import bcrypt from "bcryptjs";
 import User from "../models/user.model";
 import { JWTType } from "../types/user/user.type";
 import { AppError } from "../utils/errorHandlerClass";
-import { LoginInput, RegisterInput, registerSchema } from "../types/user/user.schema";
+import { LoginInput, RegisterInput } from "../types/user/user.schema";
 import { sendMail } from "../utils/mailer";
+import { genrateToken } from "../utils/genrateTokens";
 
 /**
  * 
@@ -31,7 +32,7 @@ export const registerServices = async (body: RegisterInput) => {
  */
 export const loginServices = async (body: LoginInput) => {
 
-  const user = await User.findOne({ email: body.email }).select("email username roleInTeam teamId role gender password").populate({
+  const user = await User.findOne({ email: body.email }).select("email username roleInTeam teamId role gender bio address job githubAccount password").populate({
     path: "teamId",
     select: "marathonId"
   })
@@ -46,14 +47,4 @@ export const loginServices = async (body: LoginInput) => {
   const accessToken = genrateToken({ id: user._id, role: user.role })
 
   return { user, accessToken }
-}
-
-
-/**
- * 
- * @param payload 
- * @returns 
- */
-const genrateToken = (payload: JWTType): string => {
-  return jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: "1d" })
 }

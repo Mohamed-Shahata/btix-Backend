@@ -5,12 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const passport_1 = __importDefault(require("passport"));
 const passport_google_oauth20_1 = require("passport-google-oauth20");
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const user_model_1 = __importDefault(require("../models/user.model"));
 const user_enum_1 = require("../types/user/user.enum");
 const errorHandlerClass_1 = require("../utils/errorHandlerClass");
 const statusCode_1 = require("../utils/statusCode");
+const genrateTokens_1 = require("../utils/genrateTokens");
 dotenv_1.default.config();
 passport_1.default.use(new passport_google_oauth20_1.Strategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -22,6 +22,7 @@ passport_1.default.use(new passport_google_oauth20_1.Strategy({
             return done(new errorHandlerClass_1.AppError('No email found in Google profile', statusCode_1.Status.BAD_REQUEST), false);
         }
         let user = await user_model_1.default.findOne({ email: profile.emails[0].value });
+        let isNewUser = false;
         if (!user) {
             user = await user_model_1.default.create({
                 email: profile.emails?.[0].value,
@@ -31,9 +32,10 @@ passport_1.default.use(new passport_google_oauth20_1.Strategy({
                 isVerified: true,
                 password: null
             });
+            isNewUser = true;
         }
-        const token = jsonwebtoken_1.default.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        return done(null, { id: String(user._id), role: user.role, token });
+        const token = (0, genrateTokens_1.genrateToken)({ id: user._id, role: user.role });
+        return done(null, { id: String(user._id), role: user.role, token, isNewUser });
     }
     catch (err) {
         return done(err, false);

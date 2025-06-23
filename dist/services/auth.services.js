@@ -4,11 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginServices = exports.registerServices = void 0;
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_model_1 = __importDefault(require("../models/user.model"));
 const errorHandlerClass_1 = require("../utils/errorHandlerClass");
 const mailer_1 = require("../utils/mailer");
+const genrateTokens_1 = require("../utils/genrateTokens");
 /**
  *
  * @param body
@@ -28,7 +28,7 @@ exports.registerServices = registerServices;
  * @returns
  */
 const loginServices = async (body) => {
-    const user = await user_model_1.default.findOne({ email: body.email }).select("email username roleInTeam teamId role gender password").populate({
+    const user = await user_model_1.default.findOne({ email: body.email }).select("email username roleInTeam teamId role gender bio address job githubAccount password").populate({
         path: "teamId",
         select: "marathonId"
     });
@@ -39,15 +39,7 @@ const loginServices = async (body) => {
         throw new errorHandlerClass_1.AppError("Email or password is wrnog", 400);
     if (user.isVerified === false)
         throw new errorHandlerClass_1.AppError("Account is not verified", 400);
-    const accessToken = genrateToken({ id: user._id, role: user.role });
+    const accessToken = (0, genrateTokens_1.genrateToken)({ id: user._id, role: user.role });
     return { user, accessToken };
 };
 exports.loginServices = loginServices;
-/**
- *
- * @param payload
- * @returns
- */
-const genrateToken = (payload) => {
-    return jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
-};

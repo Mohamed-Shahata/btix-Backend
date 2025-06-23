@@ -28,12 +28,19 @@ router.get(
   '/google/callback',
   passport.authenticate('google', {
     session: false,
-    failureRedirect: "https://btix-frontend.vercel.app/register",
+    failureRedirect: "https://btix-frontend.vercel.app/login",
   }),
   (req: any, res) => {
 
-    const { token } = req.user;
-    res.redirect(`https://btix-frontend.vercel.app/google/callback?token=${token}`);
+    const { token, isNewUser } = req.user;
+
+    if (isNewUser) {
+      res.redirect(`https://btix-frontend.vercel.app/updatePassword?token=${token}`);
+    } else {
+      res.redirect(`https://btix-frontend.vercel.app/google/callback?token=${token}`);
+    }
+
+
   }
 );
 

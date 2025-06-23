@@ -8,7 +8,8 @@ declare global {
     interface User {
       id: string;
       role: string;
-      token?: string; // لو التوكن بيترجع مع req.user
+      token?: string;
+      isNewUser?: boolean; // لو التوكن بيترجع مع req.user
     }
 
     interface Request {

@@ -195,34 +195,3 @@ const getAllJoinRequestWithMe = async (req, res) => {
     });
 };
 exports.getAllJoinRequestWithMe = getAllJoinRequestWithMe;
-// export const joinTeam = async (req: Request, res: Response) => {
-//   const user = await User.findById(req.user?.id) as IUserDocument;
-//   const team = await Team.findById(req.params.teamId);
-//   const exsitsJoinTeam = await JoinRequest.findOne({ userId: user._id });
-//   if (!team)
-//     throw new AppError("Team Not Found", Status.NOT_FOUND);
-//   if (exsitsJoinTeam?.status === JoinStatus.PENDING)
-//     throw new AppError("You already sent request join in team", Status.BAD_REQUEST);
-//   if (team.members.includes(user?._id as Schema.Types.ObjectId))
-//     throw new AppError("You already exsits team", Status.BAD_REQUEST);
-//   if (user.teamId !== null)
-//     throw new AppError("You in team", Status.BAD_REQUEST);
-//   if (team.members.length >= MAX_TEAM_LENGTH)
-//     throw new AppError("Team is full", Status.BAD_REQUEST);
-//   if (exsitsJoinTeam?.status !== JoinStatus.ACCEPTED && exsitsJoinTeam?.status !== JoinStatus.REJECTED) {
-//     await JoinRequest.create({
-//       teamId: team._id, userId: user._id, status: JoinStatus.PENDING
-//     })
-//     res.status(Status.OK).json({
-//       success: true,
-//       message: "You have sent your application correctly1"
-//     });
-//   } else {
-//     exsitsJoinTeam.updateOne({ userId: user._id, $set: { status: JoinStatus.PENDING, teamId: team._id } })
-//     // exsitsJoinTeam.save();
-//     res.status(Status.OK).json({
-//       success: true,
-//       message: "You have sent your application correctly"
-//     });
-//   }
-// }

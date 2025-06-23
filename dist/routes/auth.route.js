@@ -51,9 +51,14 @@ router.get('/google', passport_1.default.authenticate('google', { scope: ['profi
 // process.env.NODE_ENV === PRODUCTION ? process.env.CLIENT_ORIGIN : process.env.CLIENT_LOCAL
 router.get('/google/callback', passport_1.default.authenticate('google', {
     session: false,
-    failureRedirect: "https://btix-frontend.vercel.app/register",
+    failureRedirect: "https://btix-frontend.vercel.app/login",
 }), (req, res) => {
-    const { token } = req.user;
-    res.redirect(`https://btix-frontend.vercel.app/google/callback?token=${token}`);
+    const { token, isNewUser } = req.user;
+    if (isNewUser) {
+        res.redirect(`https://btix-frontend.vercel.app/updatePassword?token=${token}`);
+    }
+    else {
+        res.redirect(`https://btix-frontend.vercel.app/google/callback?token=${token}`);
+    }
 });
 exports.default = router;
