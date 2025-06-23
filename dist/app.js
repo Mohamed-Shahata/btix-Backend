@@ -20,6 +20,7 @@ require("./cronJobs/deleteOld");
 require("./config/passport");
 const helmet_1 = __importDefault(require("helmet"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
+const compression_1 = __importDefault(require("compression"));
 const path_1 = __importDefault(require("path"));
 (0, db_connection_1.default)();
 (0, dotenv_1.config)();
@@ -47,6 +48,7 @@ const limiter = (0, express_rate_limit_1.default)({
 });
 // Middlewares
 app.use(limiter);
+app.use((0, compression_1.default)());
 app.use((0, helmet_1.default)());
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
