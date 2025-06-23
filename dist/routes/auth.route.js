@@ -55,11 +55,10 @@ router.get('/google/callback', passport_1.default.authenticate('google', {
 }), (req, res) => {
     const { token, isNewUser } = req.user;
     console.log(isNewUser);
-    if (isNewUser) {
-        res.redirect(`https://btix-frontend.vercel.app/updatePassword?token=${token}`);
-    }
-    else {
-        res.redirect(`https://btix-frontend.vercel.app/google/callback?token=${token}`);
-    }
+    // if (isNewUser) {
+    //   res.redirect(`https://btix-frontend.vercel.app/updatePassword?token=${token}`);
+    // } else {
+    res.redirect(`https://btix-frontend.vercel.app/google/callback?token=${token}`);
+    // }
 });
 exports.default = router;
