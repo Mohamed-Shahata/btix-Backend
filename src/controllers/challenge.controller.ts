@@ -23,10 +23,10 @@ export const createChallenge = async (req: Request, res: Response) => {
 
   const { title, description, point, marathonId, deadline } = result.data;
 
-  // const deadlineDate = new Date(deadline);
+  const DateNow = new Date();
 
-  // if (deadline < marathon.startDate || deadline > marathon.endDate)
-  //   throw new AppError("Deadline must be within marathon period", Status.BAD_REQUEST);
+  if (deadline < DateNow || deadline > marathon.endDate)
+    throw new AppError("Deadline must be within marathon period", Status.BAD_REQUEST);
 
   const newChallenge = await Challenge.create({
     title, description, point, marathonId, deadline

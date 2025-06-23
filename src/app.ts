@@ -44,6 +44,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 
+app.set('trust proxy', 1);
 const limiter = rateLimiter({
   windowMs: 15 * 60 * 1000,
   max: 100

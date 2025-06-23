@@ -105,10 +105,13 @@ const acceptSubmission = async (req, res) => {
     submission.save();
     team.totalPoints += challenge.point;
     await team.save();
-    // team.members.map(async (membId) => {
-    //   const user = await User.findById(membId).select("points");
-    //   user?.points += Math.floor(team.totalPoints / team.maxMembers) || 0;
-    // })
+    await Promise.all(team.members.map(async (membId) => {
+        const user = await user_model_1.default.findById(membId).select("points");
+        if (user && typeof user.points === "number") {
+            user.points += Math.floor(team.totalPoints / team.maxMembers) || 0;
+            await user.save();
+        }
+    }));
     const userTeamLeader = await user_model_1.default.findById(team.leader).select("email");
     if (!userTeamLeader)
         throw new errorHandlerClass_1.AppError(constant_1.USER_NOT_FOUND, statusCode_1.Status.NOT_FOUND);

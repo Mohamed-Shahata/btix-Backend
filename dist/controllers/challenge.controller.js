@@ -19,9 +19,9 @@ const createChallenge = async (req, res) => {
     if (!result.success)
         throw new errorHandlerClass_1.AppError(constant_1.VALIDATION_ERROR, statusCode_1.Status.BAD_REQUEST, result.error.flatten().fieldErrors);
     const { title, description, point, marathonId, deadline } = result.data;
-    // const deadlineDate = new Date(deadline);
-    // if (deadline < marathon.startDate || deadline > marathon.endDate)
-    //   throw new AppError("Deadline must be within marathon period", Status.BAD_REQUEST);
+    const DateNow = new Date();
+    if (deadline < DateNow || deadline > marathon.endDate)
+        throw new errorHandlerClass_1.AppError("Deadline must be within marathon period", statusCode_1.Status.BAD_REQUEST);
     const newChallenge = await challenges_model_1.default.create({
         title, description, point, marathonId, deadline
     });

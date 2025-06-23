@@ -135,10 +135,14 @@ export const acceptSubmission = async (req: Request, res: Response) => {
   team.totalPoints += challenge.point;
   await team.save();
 
-  // team.members.map(async (membId) => {
-  //   const user = await User.findById(membId).select("points");
-  //   user?.points += Math.floor(team.totalPoints / team.maxMembers) || 0;
-  // })
+  await Promise.all(team.members.map(async (membId) => {
+    const user = await User.findById(membId).select("points");
+    if (user && typeof user.points === "number") {
+      user.points += Math.floor(team.totalPoints / team.maxMembers) || 0;
+      await user.save();
+    }
+  }));
+
 
   const userTeamLeader = await User.findById(team.leader).select("email");
 
