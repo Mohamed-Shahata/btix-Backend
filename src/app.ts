@@ -13,6 +13,8 @@ import leaderboardsRoutes from "./routes/leaderboard.route";
 import errorHandler from "./utils/errorHandler";
 import "./cronJobs/deleteOld";
 import './config/passport';
+import helmet from "helmet";
+import rateLimiter from "express-rate-limit"
 
 
 connextion_db();
@@ -39,7 +41,16 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+
+const limiter = rateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+})
+
+
 // Middlewares
+app.use(limiter);
+app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));

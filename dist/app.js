@@ -18,6 +18,8 @@ const leaderboard_route_1 = __importDefault(require("./routes/leaderboard.route"
 const errorHandler_1 = __importDefault(require("./utils/errorHandler"));
 require("./cronJobs/deleteOld");
 require("./config/passport");
+const helmet_1 = __importDefault(require("helmet"));
+const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 (0, db_connection_1.default)();
 (0, dotenv_1.config)();
 const app = (0, express_1.default)();
@@ -38,7 +40,13 @@ const corsOptions = {
     credentials: true
 };
 app.use((0, cors_1.default)(corsOptions));
+const limiter = (0, express_rate_limit_1.default)({
+    windowMs: 15 * 60 * 1000,
+    max: 100
+});
 // Middlewares
+app.use(limiter);
+app.use((0, helmet_1.default)());
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.urlencoded({ extended: true }));
