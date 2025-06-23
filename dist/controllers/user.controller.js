@@ -11,6 +11,7 @@ const constant_1 = require("../utils/constant");
 const user_model_1 = __importDefault(require("../models/user.model"));
 const user_schema_1 = require("../types/user/user.schema");
 const team_model_1 = __importDefault(require("../models/team.model"));
+const joinRequest_model_1 = __importDefault(require("../models/joinRequest.model"));
 const getMe = async (req, res) => {
     const user = await user_model_1.default.findById(req.user?.id).select("email username roleInTeam teamId role gender bio address job githubAccount").populate({
         path: "teamId",
@@ -73,6 +74,7 @@ const deleteUser = async (req, res) => {
             team.members = team.members.filter((memberId) => String(memberId) !== String(user._id));
             await team.save();
         }
+        await joinRequest_model_1.default.deleteMany({ userId: user._id });
     }
     await user_model_1.default.findByIdAndDelete(user._id);
     res.status(statusCode_1.Status.OK).json({

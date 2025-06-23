@@ -14,7 +14,8 @@ export interface IUser {
   job?: string,
   address?: string,
   githubAccount?: string,
-  password: string,
+  points: number,
+  password: string | null,
   role: RolesType
 }
 

@@ -17,6 +17,7 @@ const submission_route_1 = __importDefault(require("./routes/submission.route"))
 const leaderboard_route_1 = __importDefault(require("./routes/leaderboard.route"));
 const errorHandler_1 = __importDefault(require("./utils/errorHandler"));
 require("./cronJobs/deleteOld");
+require("./config/passport");
 (0, db_connection_1.default)();
 (0, dotenv_1.config)();
 const app = (0, express_1.default)();

@@ -45,6 +45,7 @@ const router = (0, express_1.Router)();
 router.post("/", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRoles)(user_enum_1.RolesType.MEMBER, user_enum_1.RolesType.ADMIN), (0, express_async_handler_1.default)(teamController.createTeam));
 router.get("/myTeam", auth_middleware_1.auth, (0, express_async_handler_1.default)(teamController.getMyTeam));
 router.put("/join/:teamId", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRoles)(user_enum_1.RolesType.MEMBER), (0, express_async_handler_1.default)(teamController.joinTeam));
+router.put("/leave/:teamId", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRoles)(user_enum_1.RolesType.MEMBER), (0, express_async_handler_1.default)(teamController.leaveTeam));
 router.get("/:teamId/requests", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRolesTeam)(user_enum_1.RolesTeam.LEADER), (0, express_async_handler_1.default)(teamController.getRequestJoinTeam));
 router.get("/requests/me", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRoles)(user_enum_1.RolesType.MEMBER, user_enum_1.RolesType.ADMIN), (0, express_async_handler_1.default)(teamController.getAllJoinRequestWithMe));
 router.post("/:teamId/requests/:requestId/accept", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRolesTeam)(user_enum_1.RolesTeam.LEADER), (0, express_async_handler_1.default)(teamController.acceptJoinTeam));

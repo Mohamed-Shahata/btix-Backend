@@ -37,7 +37,7 @@ export const loginServices = async (body: LoginInput) => {
   })
   if (!user) throw new AppError("Email or password is wrnog", 400)
 
-  const isMatch = await bcrypt.compare(body.password, user.password);
+  const isMatch = await bcrypt.compare(body.password, user.password!);
   if (!isMatch) throw new AppError("Email or password is wrnog", 400)
 
   if (user.isVerified === false)

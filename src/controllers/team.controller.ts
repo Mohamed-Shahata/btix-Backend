@@ -74,6 +74,44 @@ export const joinTeam = async (req: Request, res: Response) => {
   });
 }
 
+export const leaveTeam = async (req: Request, res: Response) => {
+
+  const user = await User.findById(req.user?.id) as IUserDocument;
+  const team = await Team.findById(req.params.teamId);
+
+
+  if (!team)
+    throw new AppError("Team Not Found", Status.NOT_FOUND);
+
+
+  if (user.teamId === null)
+    throw new AppError("You not in team", Status.BAD_REQUEST);
+
+  const request = await JoinRequest.findOne({
+    userId: user._id,
+    teamId: team._id
+  })
+
+  if (!request)
+    throw new AppError("You not in team", Status.BAD_REQUEST);
+
+  await request.deleteOne();
+
+  team.members = team.members.filter((memId) => String(memId) !== String(user._id));
+  await team.save();
+
+  user.teamId = null;
+  user.roleInTeam = null;
+  await user.save();
+
+
+
+  res.status(Status.OK).json({
+    success: true,
+    message: "Leave team successfully"
+  });
+}
+
 export const getTeam = async (req: Request, res: Response) => {
 
   const team = await Team.findById(req.params.id).select("totalPoints name")

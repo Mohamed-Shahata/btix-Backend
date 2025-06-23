@@ -104,7 +104,11 @@ const acceptSubmission = async (req, res) => {
     submission.notesFromLeader = notesFromLeader;
     submission.save();
     team.totalPoints += challenge.point;
-    team.save();
+    await team.save();
+    // team.members.map(async (membId) => {
+    //   const user = await User.findById(membId).select("points");
+    //   user?.points += Math.floor(team.totalPoints / team.maxMembers) || 0;
+    // })
     const userTeamLeader = await user_model_1.default.findById(team.leader).select("email");
     if (!userTeamLeader)
         throw new errorHandlerClass_1.AppError(constant_1.USER_NOT_FOUND, statusCode_1.Status.NOT_FOUND);

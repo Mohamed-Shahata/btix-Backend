@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllJoinRequestWithMe = exports.rejectJoinTeam = exports.acceptJoinTeam = exports.getRequestJoinTeam = exports.deleteTeam = exports.getAllTeam = exports.getMyTeam = exports.getTeam = exports.joinTeam = exports.createTeam = void 0;
+exports.getAllJoinRequestWithMe = exports.rejectJoinTeam = exports.acceptJoinTeam = exports.getRequestJoinTeam = exports.deleteTeam = exports.getAllTeam = exports.getMyTeam = exports.getTeam = exports.leaveTeam = exports.joinTeam = exports.createTeam = void 0;
 const team_schema_1 = require("../types/team/team.schema");
 const errorHandlerClass_1 = require("../utils/errorHandlerClass");
 const constant_1 = require("../utils/constant");
@@ -58,6 +58,31 @@ const joinTeam = async (req, res) => {
     });
 };
 exports.joinTeam = joinTeam;
+const leaveTeam = async (req, res) => {
+    const user = await user_model_1.default.findById(req.user?.id);
+    const team = await team_model_1.default.findById(req.params.teamId);
+    if (!team)
+        throw new errorHandlerClass_1.AppError("Team Not Found", statusCode_1.Status.NOT_FOUND);
+    if (user.teamId === null)
+        throw new errorHandlerClass_1.AppError("You not in team", statusCode_1.Status.BAD_REQUEST);
+    const request = await joinRequest_model_1.default.findOne({
+        userId: user._id,
+        teamId: team._id
+    });
+    if (!request)
+        throw new errorHandlerClass_1.AppError("You not in team", statusCode_1.Status.BAD_REQUEST);
+    await request.deleteOne();
+    team.members = team.members.filter((memId) => String(memId) !== String(user._id));
+    await team.save();
+    user.teamId = null;
+    user.roleInTeam = null;
+    await user.save();
+    res.status(statusCode_1.Status.OK).json({
+        success: true,
+        message: "Leave team successfully"
+    });
+};
+exports.leaveTeam = leaveTeam;
 const getTeam = async (req, res) => {
     const team = await team_model_1.default.findById(req.params.id).select("totalPoints name")
         .populate([{

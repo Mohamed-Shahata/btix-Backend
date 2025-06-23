@@ -12,6 +12,7 @@ import submissionsRoutes from "./routes/submission.route";
 import leaderboardsRoutes from "./routes/leaderboard.route";
 import errorHandler from "./utils/errorHandler";
 import "./cronJobs/deleteOld";
+import './config/passport';
 
 
 connextion_db();

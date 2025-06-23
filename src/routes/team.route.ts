@@ -27,6 +27,13 @@ router.put(
   expressAsyncHandler(teamController.joinTeam)
 );
 
+router.put(
+  "/leave/:teamId",
+  auth,
+  authorizedRoles(RolesType.MEMBER),
+  expressAsyncHandler(teamController.leaveTeam)
+);
+
 router.get(
   "/:teamId/requests",
   auth,

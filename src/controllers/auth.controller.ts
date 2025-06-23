@@ -7,6 +7,8 @@ import { AppError } from "../utils/errorHandlerClass";
 import User from "../models/user.model";
 import { JWTType } from "../types/user/user.type";
 import jwt from "jsonwebtoken";
+import { RolesType } from "../types/user/user.enum";
+import { JwtPayloadDecoded } from "../types/user/user.interface";
 
 
 export const register = async (req: Request, res: Response): Promise<void> => {
@@ -102,6 +104,18 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
 
 };
 
+// export const googleCallback = async (req: Request, res: Response) => {
+
+//   const user = await User.findById(req.user?.id);
+
+//   if (!user)
+//     throw new AppError(USER_NOT_FOUND, Status.NOT_FOUND);
+
+//   const accessToken = genrateToken({ id: user._id, role: user.role });
+
+//   res.redirect(`${process.env.CLIENT_DOMAIN}?accessToken=${accessToken}`);
+// }
+
 const genrateToken = (payload: JWTType): string => {
-  return jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: "1d" })
+  return jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: "7d" })
 }

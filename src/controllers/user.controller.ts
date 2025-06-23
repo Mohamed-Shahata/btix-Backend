@@ -6,6 +6,7 @@ import { USER_NOT_FOUND, VALIDATION_ERROR } from "../utils/constant";
 import User from "../models/user.model";
 import { updateUserSchema } from "../types/user/user.schema";
 import Team from "../models/team.model";
+import JoinRequest from "../models/joinRequest.model";
 
 
 export const getMe = async (req: Request, res: Response) => {
@@ -87,6 +88,8 @@ export const deleteUser = async (req: Request, res: Response) => {
       team.members = team.members.filter((memberId) => String(memberId) !== String(user._id));
       await team.save();
     }
+
+    await JoinRequest.deleteMany({ userId: user._id })
   }
 
   await User.findByIdAndDelete(user._id);

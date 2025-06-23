@@ -78,6 +78,13 @@ const logout = async (req, res) => {
     });
 };
 exports.logout = logout;
+// export const googleCallback = async (req: Request, res: Response) => {
+//   const user = await User.findById(req.user?.id);
+//   if (!user)
+//     throw new AppError(USER_NOT_FOUND, Status.NOT_FOUND);
+//   const accessToken = genrateToken({ id: user._id, role: user.role });
+//   res.redirect(`${process.env.CLIENT_DOMAIN}?accessToken=${accessToken}`);
+// }
 const genrateToken = (payload) => {
-    return jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
+    return jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
 };

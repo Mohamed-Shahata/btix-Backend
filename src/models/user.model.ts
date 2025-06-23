@@ -16,6 +16,9 @@ const userSchema: Schema<IUserDocument> = new Schema<IUserDocument>({
   verificationCode: {
     type: String, default: null
   },
+  points: {
+    type: Number, default: 0
+  },
   bio: {
     type: String, default: ""
   },
@@ -32,7 +35,7 @@ const userSchema: Schema<IUserDocument> = new Schema<IUserDocument>({
     type: Boolean, default: false
   },
   password: {
-    type: String, required: true, minlength: 8
+    type: String, minlength: 8
   },
   teamId: {
     type: Schema.Types.ObjectId,

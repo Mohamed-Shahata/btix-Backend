@@ -13,7 +13,6 @@ router.get("/requests", auth, authorizedRoles(RolesType.LEADER), expressAsyncHan
 //notes
 router.get("/:teamId", auth, authorizedRoles(RolesType.LEADER, RolesType.MEMBER), expressAsyncHandler(submissionController.getTeamSubmissions));
 
-
 router.post("/:id/accept", auth, authorizedRoles(RolesType.LEADER), expressAsyncHandler(submissionController.acceptSubmission));
 
 router.post("/:id/reject", auth, authorizedRoles(RolesType.LEADER), expressAsyncHandler(submissionController.rejecttSubmission));
