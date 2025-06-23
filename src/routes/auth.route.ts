@@ -3,6 +3,7 @@ import * as authController from "../controllers/auth.controller"
 import expressAsyncHandler from "express-async-handler";
 import passport from "passport";
 import { PRODUCTION } from "../utils/constant";
+import { auth } from "../middlewares/auth.middleware";
 
 const router = Router();
 
@@ -14,6 +15,8 @@ router.post("/verificationCode", expressAsyncHandler(authController.vrificationC
 router.post("/login", expressAsyncHandler(authController.login));
 
 router.post("/logout", expressAsyncHandler(authController.logout));
+
+router.post("/changePassword", auth, expressAsyncHandler(authController.challengePassword));
 
 
 router.get(

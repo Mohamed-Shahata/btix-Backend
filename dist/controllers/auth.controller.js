@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.login = exports.vrificationCode = exports.register = void 0;
+exports.challengePassword = exports.logout = exports.login = exports.vrificationCode = exports.register = void 0;
 const auth_services_1 = require("../services/auth.services");
 const constant_1 = require("../utils/constant");
 const statusCode_1 = require("../utils/statusCode");
@@ -11,6 +11,7 @@ const user_schema_1 = require("../types/user/user.schema");
 const errorHandlerClass_1 = require("../utils/errorHandlerClass");
 const user_model_1 = __importDefault(require("../models/user.model"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const register = async (req, res) => {
     const result = user_schema_1.registerSchema.safeParse(req.body);
     if (!result.success) {
@@ -78,13 +79,25 @@ const logout = async (req, res) => {
     });
 };
 exports.logout = logout;
-// export const googleCallback = async (req: Request, res: Response) => {
-//   const user = await User.findById(req.user?.id);
-//   if (!user)
-//     throw new AppError(USER_NOT_FOUND, Status.NOT_FOUND);
-//   const accessToken = genrateToken({ id: user._id, role: user.role });
-//   res.redirect(`${process.env.CLIENT_DOMAIN}?accessToken=${accessToken}`);
-// }
+const challengePassword = async (req, res) => {
+    const user = await user_model_1.default.findById(req.user?.id);
+    if (!user)
+        throw new errorHandlerClass_1.AppError(constant_1.USER_NOT_FOUND, statusCode_1.Status.NOT_FOUND);
+    const result = user_schema_1.changePasswordSchema.safeParse(req.body);
+    if (!result.success) {
+        throw new errorHandlerClass_1.AppError(constant_1.VALIDATION_ERROR, statusCode_1.Status.BAD_REQUEST, result.error.flatten().fieldErrors);
+    }
+    const { password } = result.data;
+    const salt = await bcryptjs_1.default.genSalt(10);
+    const hashPassword = await bcryptjs_1.default.hash(password, salt);
+    user.password = hashPassword;
+    await user.save();
+    res.status(statusCode_1.Status.OK).json({
+        success: true,
+        message: "change password success"
+    });
+};
+exports.challengePassword = challengePassword;
 const genrateToken = (payload) => {
     return jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
 };

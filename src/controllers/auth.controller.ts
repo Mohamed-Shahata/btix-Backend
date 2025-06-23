@@ -2,13 +2,12 @@ import { Request, Response } from "express";
 import { loginServices, registerServices } from "../services/auth.services";
 import { ACCESS_TOKEN, PRODUCTION, USER_NOT_FOUND, VALIDATION_ERROR } from "../utils/constant";
 import { Status } from "../utils/statusCode";
-import { loginSchema, registerSchema, vrificationCodeSchema } from "../types/user/user.schema";
+import { changePasswordSchema, loginSchema, registerSchema, vrificationCodeSchema } from "../types/user/user.schema";
 import { AppError } from "../utils/errorHandlerClass";
 import User from "../models/user.model";
 import { JWTType } from "../types/user/user.type";
 import jwt from "jsonwebtoken";
-import { RolesType } from "../types/user/user.enum";
-import { JwtPayloadDecoded } from "../types/user/user.interface";
+import bcrypt from "bcryptjs";
 
 
 export const register = async (req: Request, res: Response): Promise<void> => {
@@ -104,17 +103,34 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
 
 };
 
-// export const googleCallback = async (req: Request, res: Response) => {
 
-//   const user = await User.findById(req.user?.id);
+export const challengePassword = async (req: Request, res: Response) => {
 
-//   if (!user)
-//     throw new AppError(USER_NOT_FOUND, Status.NOT_FOUND);
+  const user = await User.findById(req.user?.id);
 
-//   const accessToken = genrateToken({ id: user._id, role: user.role });
+  if (!user)
+    throw new AppError(USER_NOT_FOUND, Status.NOT_FOUND);
 
-//   res.redirect(`${process.env.CLIENT_DOMAIN}?accessToken=${accessToken}`);
-// }
+  const result = changePasswordSchema.safeParse(req.body);
+
+  if (!result.success) {
+    throw new AppError(VALIDATION_ERROR, Status.BAD_REQUEST, result.error.flatten().fieldErrors)
+  }
+  const { password } = result.data;
+
+
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(password, salt)
+
+  user.password = hashPassword;
+  await user.save();
+
+  res.status(Status.OK).json({
+    success: true,
+    message: "change password success"
+  });
+
+}
 
 const genrateToken = (payload: JWTType): string => {
   return jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: "7d" })

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserSchema = exports.vrificationCodeSchema = exports.registerSchema = exports.loginSchema = void 0;
+exports.changePasswordSchema = exports.updateUserSchema = exports.vrificationCodeSchema = exports.registerSchema = exports.loginSchema = void 0;
 const zod_1 = require("zod");
 const user_enum_1 = require("./user.enum");
 exports.loginSchema = zod_1.z.object({
@@ -24,4 +24,7 @@ exports.updateUserSchema = zod_1.z.object({
     job: zod_1.z.string().min(2).max(100).optional(),
     address: zod_1.z.string().min(2).max(100).optional(),
     githubAccount: zod_1.z.string().startsWith("https://github.com/").optional(),
+});
+exports.changePasswordSchema = zod_1.z.object({
+    password: zod_1.z.string().min(8)
 });

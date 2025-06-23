@@ -40,11 +40,13 @@ const express_1 = require("express");
 const authController = __importStar(require("../controllers/auth.controller"));
 const express_async_handler_1 = __importDefault(require("express-async-handler"));
 const passport_1 = __importDefault(require("passport"));
+const auth_middleware_1 = require("../middlewares/auth.middleware");
 const router = (0, express_1.Router)();
 router.post("/register", (0, express_async_handler_1.default)(authController.register));
 router.post("/verificationCode", (0, express_async_handler_1.default)(authController.vrificationCode));
 router.post("/login", (0, express_async_handler_1.default)(authController.login));
 router.post("/logout", (0, express_async_handler_1.default)(authController.logout));
+router.post("/changePassword", auth_middleware_1.auth, (0, express_async_handler_1.default)(authController.challengePassword));
 router.get('/google', passport_1.default.authenticate('google', { scope: ['profile', 'email'] }));
 // process.env.NODE_ENV === PRODUCTION ? process.env.CLIENT_ORIGIN : process.env.CLIENT_LOCAL
 router.get('/google/callback', passport_1.default.authenticate('google', {
