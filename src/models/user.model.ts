@@ -42,6 +42,9 @@ const userSchema: Schema<IUserDocument> = new Schema<IUserDocument>({
     ref: "Team",
     default: null
   },
+  resetPasswordToken: {
+    type: String, default: ""
+  },
   roleInTeam: {
     type: String, enum: RolesTeam, default: null
   },

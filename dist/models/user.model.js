@@ -41,6 +41,9 @@ const userSchema = new mongoose_1.Schema({
         ref: "Team",
         default: null
     },
+    resetPasswordToken: {
+        type: String, default: ""
+    },
     roleInTeam: {
         type: String, enum: user_enum_1.RolesTeam, default: null
     },

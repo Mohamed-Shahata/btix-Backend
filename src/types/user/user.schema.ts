@@ -32,9 +32,14 @@ export const changePasswordSchema = z.object({
   password: z.string().min(8)
 })
 
+export const forgotPasswordSchema = z.object({
+  email: z.string().email(),
+})
+
 
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type vrificationCodeInput = z.infer<typeof vrificationCodeSchema>;
 export type updateUserSchemaInput = z.infer<typeof updateUserSchema>;
 export type changePasswordSchemaInput = z.infer<typeof changePasswordSchema>;
+export type forgotPasswordSchemaSchemaInput = z.infer<typeof forgotPasswordSchema>;

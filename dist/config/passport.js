@@ -41,7 +41,6 @@ passport_1.default.use(new passport_google_oauth20_1.Strategy({
         return done(err, false);
     }
 }));
-// إعداد serialize/deserialize (اختياري لو مش مستخدم sessions)
 passport_1.default.serializeUser((user, done) => {
     done(null, user);
 });

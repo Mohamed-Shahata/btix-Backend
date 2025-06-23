@@ -10,6 +10,7 @@ export interface IUser {
   roleInTeam: RolesTeam | null,
   verificationCode: string | null,
   isVerified: boolean,
+  resetPasswordToken: string | null,
   bio?: string,
   job?: string,
   address?: string,

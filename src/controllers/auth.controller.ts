@@ -2,12 +2,14 @@ import { Request, Response } from "express";
 import { loginServices, registerServices } from "../services/auth.services";
 import { ACCESS_TOKEN, PRODUCTION, USER_NOT_FOUND, VALIDATION_ERROR } from "../utils/constant";
 import { Status } from "../utils/statusCode";
-import { changePasswordSchema, loginSchema, registerSchema, vrificationCodeSchema } from "../types/user/user.schema";
+import { changePasswordSchema, loginSchema, registerSchema, forgotPasswordSchema, vrificationCodeSchema } from "../types/user/user.schema";
 import { AppError } from "../utils/errorHandlerClass";
 import User from "../models/user.model";
 import { JWTType } from "../types/user/user.type";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { randomBytes } from "crypto";
+import { sendMail } from "../utils/mailer";
 
 
 export const register = async (req: Request, res: Response): Promise<void> => {
@@ -132,6 +134,61 @@ export const challengePassword = async (req: Request, res: Response) => {
 
 }
 
-const genrateToken = (payload: JWTType): string => {
-  return jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: "7d" })
+
+
+
+
+export const forgotPassword = async (req: Request, res: Response) => {
+
+  const result = forgotPasswordSchema.safeParse(req.body);
+
+  if (!result.success) {
+    throw new AppError(VALIDATION_ERROR, Status.BAD_REQUEST, result.error.flatten().fieldErrors)
+  }
+  const { email } = result.data;
+
+  const user = await User.findOne({ email });
+  if (!user)
+    throw new AppError(USER_NOT_FOUND, Status.NOT_FOUND);
+
+  user.resetPasswordToken = randomBytes(32).toString("hex");
+  await user.save();
+
+  const Link = `${process.env.CLIENT_ORIGIN}/ResetPassword/${user._id}/${user.resetPasswordToken}`;
+
+  sendMail({ to: user.email, subject: "Reset Password", template: "forgot-password.ejs", data: { username: user.username, Link } })
+
+  res.status(Status.OK).json({
+    success: true,
+    message: "Password reset link sent to your email, please check your inbox"
+  })
+};
+
+
+export const resetPassword = async (req: Request, res: Response) => {
+
+  const { userId, token } = req.params;
+  const { password } = req.body;
+
+  const user = await User.findOne({ _id: userId, resetPasswordToken: token });
+
+  if (!user)
+    throw new AppError(USER_NOT_FOUND, Status.NOT_FOUND);
+
+  if (!token)
+    throw new AppError("Token expire", Status.NOT_FOUND);
+
+
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(password, salt);
+
+
+  user.password = hashPassword;
+  user.resetPasswordToken = null;
+  await user.save();
+
+  res.status(Status.OK).json({
+    success: true,
+    message: "change passsword successfully"
+  })
 }

@@ -15,6 +15,7 @@ import "./cronJobs/deleteOld";
 import './config/passport';
 import helmet from "helmet";
 import rateLimiter from "express-rate-limit"
+import path from "path";
 
 
 connextion_db();
@@ -54,6 +55,10 @@ app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "templates"));
+
 
 // Routes
 app.use("/auth", authRoutes);

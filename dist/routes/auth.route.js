@@ -48,17 +48,17 @@ router.post("/login", (0, express_async_handler_1.default)(authController.login)
 router.post("/logout", (0, express_async_handler_1.default)(authController.logout));
 router.post("/changePassword", auth_middleware_1.auth, (0, express_async_handler_1.default)(authController.challengePassword));
 router.get('/google', passport_1.default.authenticate('google', { scope: ['profile', 'email'] }));
-// process.env.NODE_ENV === PRODUCTION ? process.env.CLIENT_ORIGIN : process.env.CLIENT_LOCAL
 router.get('/google/callback', passport_1.default.authenticate('google', {
     session: false,
-    failureRedirect: "https://btix-frontend.vercel.app/login",
+    failureRedirect: `${process.env.CLIENT_ORIGIN}/login`,
 }), (req, res) => {
     const { token, isNewUser } = req.user;
     console.log(isNewUser);
-    // if (isNewUser) {
-    //   res.redirect(`https://btix-frontend.vercel.app/updatePassword?token=${token}`);
-    // } else {
-    res.redirect(`https://btix-frontend.vercel.app/google/callback?token=${token}`);
-    // }
+    if (isNewUser) {
+        return res.redirect(`${process.env.CLIENT_ORIGIN}/updatePassword?token=${token}`);
+    }
+    res.redirect(`${process.env.CLIENT_ORIGIN}/google/callback?token=${token}`);
 });
+router.post("/forgot-password", (0, express_async_handler_1.default)(authController.forgotPassword));
+router.post("/reset-password/:userId/:token", (0, express_async_handler_1.default)(authController.resetPassword));
 exports.default = router;

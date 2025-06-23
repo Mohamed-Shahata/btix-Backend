@@ -49,7 +49,6 @@ passport.use(
   )
 );
 
-// إعداد serialize/deserialize (اختياري لو مش مستخدم sessions)
 passport.serializeUser((user: any, done) => {
   done(null, user);
 });
