@@ -40,18 +40,18 @@ const express_1 = require("express");
 const authController = __importStar(require("../controllers/auth.controller"));
 const express_async_handler_1 = __importDefault(require("express-async-handler"));
 const passport_1 = __importDefault(require("passport"));
-const constant_1 = require("../utils/constant");
 const router = (0, express_1.Router)();
 router.post("/register", (0, express_async_handler_1.default)(authController.register));
 router.post("/verificationCode", (0, express_async_handler_1.default)(authController.vrificationCode));
 router.post("/login", (0, express_async_handler_1.default)(authController.login));
 router.post("/logout", (0, express_async_handler_1.default)(authController.logout));
 router.get('/google', passport_1.default.authenticate('google', { scope: ['profile', 'email'] }));
+// process.env.NODE_ENV === PRODUCTION ? process.env.CLIENT_ORIGIN : process.env.CLIENT_LOCAL
 router.get('/google/callback', passport_1.default.authenticate('google', {
     session: false,
-    failureRedirect: process.env.NODE_ENV === constant_1.PRODUCTION ? process.env.CLIENT_ORIGIN : process.env.CLIENT_LOCAL,
+    failureRedirect: "https://btix-frontend.vercel.app/register",
 }), (req, res) => {
     const { token } = req.user;
-    res.redirect(`${process.env.CLIENT_ORIGIN}/google/callback?token=${token}`);
+    res.redirect(`https://btix-frontend.vercel.app/google/callback?token=${token}`);
 });
 exports.default = router;
