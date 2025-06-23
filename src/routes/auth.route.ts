@@ -30,7 +30,7 @@ router.get(
   (req: any, res) => {
 
     const { token } = req.user;
-    res.redirect(`${process.env.CLIENT_ORIGIN}/google/callback?token=${token}`);
+    res.redirect(`https://btix-frontend.vercel.app/google/callback?token=${token}`);
   }
 );
 
