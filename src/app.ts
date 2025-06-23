@@ -14,7 +14,8 @@ import errorHandler from "./utils/errorHandler";
 import "./cronJobs/deleteOld";
 import './config/passport';
 import helmet from "helmet";
-import rateLimiter from "express-rate-limit"
+import rateLimiter from "express-rate-limit";
+import compression from "compression";
 import path from "path";
 
 
@@ -51,6 +52,7 @@ const limiter = rateLimiter({
 
 // Middlewares
 app.use(limiter);
+app.use(compression())
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());

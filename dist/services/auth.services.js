@@ -19,7 +19,7 @@ const registerServices = async (body) => {
     const hashPassword = await bcryptjs_1.default.hash(body.password, salt);
     const code = Math.floor(100000 + Math.random() * 900000);
     const user = await user_model_1.default.create({ ...body, password: hashPassword, verificationCode: code });
-    (0, mailer_1.sendMail)({ to: user.email, subject: "welcom", template: "sendVerificationCode.ejs", data: { code } });
+    (0, mailer_1.sendMail)({ to: user.email, subject: "Verification Code", template: "sendVerificationCode.ejs", data: { code } });
 };
 exports.registerServices = registerServices;
 /**

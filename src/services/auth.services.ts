@@ -21,7 +21,7 @@ export const registerServices = async (body: RegisterInput) => {
 
   const user = await User.create({ ...body, password: hashPassword, verificationCode: code });
 
-  sendMail({ to: user.email, subject: "welcom", template: "sendVerificationCode.ejs", data: { code } })
+  sendMail({ to: user.email, subject: "Verification Code", template: "sendVerificationCode.ejs", data: { code } })
 
 }
 

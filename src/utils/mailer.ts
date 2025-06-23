@@ -3,11 +3,10 @@ import path from "path";
 import ejs from "ejs";
 
 const transporter = nodemailer.createTransport({
-  host: "sandbox.smtp.mailtrap.io",
-  port: 2525,
+  service: "gmail",
   auth: {
-    user: "009fc9f1384531",
-    pass: "7e889c31d5cb7a"
+    user: process.env.GOOGLE_EMAIL,
+    pass: process.env.GOOGLE_PASS
   }
 });
 
@@ -20,22 +19,20 @@ interface SendMailOptions {
 
 export const sendMail = async ({ to, subject, template, data }: SendMailOptions) => {
   try {
-    const templatePath = path.resolve('src', 'templates', template);
-
+    const templatePath = path.resolve('src', 'templates', template.endsWith('.ejs') ? template : `${template}.ejs`);
     const html = await ejs.renderFile(templatePath, data);
 
-
     const mailOptions = {
-      from: "My app",
+      from: `"BITX" <${process.env.GOOGLE_EMAIL}>`,
       to,
       subject,
       html
     };
 
     await transporter.sendMail(mailOptions);
-    console.log("send mail success");
+    console.log("✅ Mail sent successfully");
 
   } catch (error) {
-    console.log("error mailer: ", error);
+    console.error("❌ Error sending mail:", error);
   }
 };
