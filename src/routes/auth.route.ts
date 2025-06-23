@@ -35,11 +35,11 @@ router.get(
     const { token, isNewUser } = req.user;
 
     console.log(isNewUser)
-    if (isNewUser) {
-      res.redirect(`https://btix-frontend.vercel.app/updatePassword?token=${token}`);
-    } else {
-      res.redirect(`https://btix-frontend.vercel.app/google/callback?token=${token}`);
-    }
+    // if (isNewUser) {
+    //   res.redirect(`https://btix-frontend.vercel.app/updatePassword?token=${token}`);
+    // } else {
+    res.redirect(`https://btix-frontend.vercel.app/google/callback?token=${token}`);
+    // }
 
 
   }
