@@ -20,12 +20,12 @@ router.get(
   '/google',
   passport.authenticate('google', { scope: ['profile', 'email'] })
 );
-
+// process.env.NODE_ENV === PRODUCTION ? process.env.CLIENT_ORIGIN : process.env.CLIENT_LOCAL
 router.get(
   '/google/callback',
   passport.authenticate('google', {
     session: false,
-    failureRedirect: process.env.NODE_ENV === PRODUCTION ? process.env.CLIENT_ORIGIN : process.env.CLIENT_LOCAL,
+    failureRedirect: "https://btix-frontend.vercel.app/register",
   }),
   (req: any, res) => {
 
