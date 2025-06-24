@@ -58,9 +58,20 @@ const joinMarathon = async (req, res) => {
 };
 exports.joinMarathon = joinMarathon;
 const getAllMarathon = async (req, res) => {
-    const marathons = await marathon_model_1.default.find();
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const skip = (page - 1) * limit;
+    const totalMarathons = await marathon_model_1.default.countDocuments();
+    const marathons = await marathon_model_1.default.find()
+        .skip(skip)
+        .limit(limit);
+    const totalPages = Math.ceil(totalMarathons / limit);
     res.status(statusCode_1.Status.OK).json({
         success: true,
+        currentPage: page,
+        totalPages,
+        totalMarathons,
+        results: marathons.length,
         marathons
     });
 };

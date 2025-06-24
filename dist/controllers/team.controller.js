@@ -115,9 +115,20 @@ const getMyTeam = async (req, res) => {
 };
 exports.getMyTeam = getMyTeam;
 const getAllTeam = async (req, res) => {
-    const teams = await team_model_1.default.find();
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const skip = (page - 1) * limit;
+    const totalTeams = await team_model_1.default.countDocuments();
+    const teams = await team_model_1.default.find()
+        .skip(skip)
+        .limit(limit);
+    const totalPages = Math.ceil(totalTeams / limit);
     res.status(statusCode_1.Status.OK).json({
         success: true,
+        currentPage: page,
+        totalPages,
+        totalTeams,
+        results: teams.length,
         teams
     });
 };

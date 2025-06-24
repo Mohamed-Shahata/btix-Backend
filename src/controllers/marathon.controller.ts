@@ -71,10 +71,23 @@ export const joinMarathon = async (req: Request, res: Response) => {
 
 export const getAllMarathon = async (req: Request, res: Response) => {
 
-  const marathons = await Marathon.find();
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = 10;
+  const skip = (page - 1) * limit;
+
+  const totalMarathons = await Marathon.countDocuments();
+  const marathons = await Marathon.find()
+    .skip(skip)
+    .limit(limit);
+
+  const totalPages = Math.ceil(totalMarathons / limit);
 
   res.status(Status.OK).json({
     success: true,
+    currentPage: page,
+    totalPages,
+    totalMarathons,
+    results: marathons.length,
     marathons
   });
 }

@@ -75,14 +75,27 @@ const getTeamSubmissions = async (req, res) => {
 };
 exports.getTeamSubmissions = getTeamSubmissions;
 const getAllSubmissions = async (req, res) => {
-    const submissions = await submission_model_1.default.find().sort({ createdAt: -1 }).populate({
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const skip = (page - 1) * limit;
+    const filter = { status: user_enum_1.JoinStatus.PENDING };
+    const totalSubmissions = await submission_model_1.default.countDocuments(filter);
+    const submissions = await submission_model_1.default.find(filter)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .populate({
         path: "teamId",
-        select: "name"
+        select: "name",
     });
-    const submissionsFilter = submissions.filter((sub) => sub.status === user_enum_1.JoinStatus.PENDING);
+    const totalPages = Math.ceil(totalSubmissions / limit);
     res.status(statusCode_1.Status.OK).json({
         success: true,
-        submissions: submissionsFilter
+        currentPage: page,
+        totalPages,
+        totalSubmissions,
+        results: submissions.length,
+        submissions,
     });
 };
 exports.getAllSubmissions = getAllSubmissions;

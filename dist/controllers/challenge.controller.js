@@ -33,13 +33,26 @@ const createChallenge = async (req, res) => {
 };
 exports.createChallenge = createChallenge;
 const getChallengesForMarathon = async (req, res) => {
+    const { page = "1" } = req.query;
+    const currentPage = parseInt(page);
+    const perPage = 10;
+    const skip = (currentPage - 1) * perPage;
     const marathon = await marathon_model_1.default.findById(req.params.marathonId);
-    if (!marathon)
+    if (!marathon) {
         throw new errorHandlerClass_1.AppError("Marathon Not Found", statusCode_1.Status.NOT_FOUND);
-    const challenges = await challenges_model_1.default.find({ marathonId: marathon._id });
+    }
+    const totalChallenges = await challenges_model_1.default.countDocuments({ marathonId: marathon._id });
+    const challenges = await challenges_model_1.default.find({ marathonId: marathon._id })
+        .skip(skip)
+        .limit(perPage);
+    const totalPages = Math.ceil(totalChallenges / perPage);
     res.status(statusCode_1.Status.OK).json({
         success: true,
-        challenges
+        currentPage,
+        totalPages,
+        totalChallenges,
+        results: challenges.length,
+        challenges,
     });
 };
 exports.getChallengesForMarathon = getChallengesForMarathon;

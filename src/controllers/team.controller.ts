@@ -153,10 +153,23 @@ export const getMyTeam = async (req: Request, res: Response) => {
 
 export const getAllTeam = async (req: Request, res: Response) => {
 
-  const teams = await Team.find();
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = 10;
+  const skip = (page - 1) * limit;
+
+  const totalTeams = await Team.countDocuments();
+  const teams = await Team.find()
+    .skip(skip)
+    .limit(limit);
+
+  const totalPages = Math.ceil(totalTeams / limit);
 
   res.status(Status.OK).json({
     success: true,
+    currentPage: page,
+    totalPages,
+    totalTeams,
+    results: teams.length,
     teams
   });
 }
