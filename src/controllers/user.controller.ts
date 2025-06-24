@@ -25,12 +25,27 @@ export const getMe = async (req: Request, res: Response) => {
 }
 
 export const getAllUsers = async (req: Request, res: Response) => {
-  const users = await User.find().select("username email role createdAt roleInTeam gender");
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = 10;
+
+  const skip = (page - 1) * limit;
+
+  const [users, totalUsers] = await Promise.all([
+    User.find()
+      .select("username email role createdAt roleInTeam gender")
+      .skip(skip)
+      .limit(limit),
+    User.countDocuments()
+  ]);
+
+  const totalPages = Math.ceil(totalUsers / limit);
 
   res.status(Status.OK).json({
     success: true,
-    users
-  })
+    users,
+    totalPages,
+    currentPage: page,
+  });
 }
 
 export const getUser = async (req: Request, res: Response) => {

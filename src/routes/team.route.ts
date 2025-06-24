@@ -42,6 +42,13 @@ router.get(
 );
 
 router.get(
+  "/:teamId/requests",
+  auth,
+  authorizedRolesTeam(RolesTeam.LEADER),
+  expressAsyncHandler(teamController.getRequestJoinTeam)
+);
+
+router.get(
   "/requests/me",
   auth,
   authorizedRoles(RolesType.MEMBER, RolesType.ADMIN),
