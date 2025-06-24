@@ -121,7 +121,7 @@ const acceptSubmission = async (req, res) => {
     await Promise.all(team.members.map(async (membId) => {
         const user = await user_model_1.default.findById(membId).select("points");
         if (user && typeof user.points === "number") {
-            user.points += Math.floor(team.totalPoints / team.maxMembers) || 0;
+            user.points += Math.floor(challenge.point / team.members.length) || 0;
             await user.save();
         }
     }));
