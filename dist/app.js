@@ -41,7 +41,7 @@ const corsOptions = {
     credentials: true
 };
 app.use((0, cors_1.default)(corsOptions));
-app.set('trust proxy', 1);
+app.set('trust proxy', true);
 // Middlewares
 app.use((0, cookie_parser_1.default)());
 app.use((0, compression_1.default)());
