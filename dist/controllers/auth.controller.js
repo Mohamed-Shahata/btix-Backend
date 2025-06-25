@@ -72,7 +72,7 @@ const logout = async (req, res) => {
     res.clearCookie(constant_1.ACCESS_TOKEN, {
         httpOnly: true,
         secure: process.env.NODE_ENV === constant_1.PRODUCTION,
-        sameSite: "strict"
+        sameSite: "none"
     });
     res.status(statusCode_1.Status.OK).json({
         success: true,
