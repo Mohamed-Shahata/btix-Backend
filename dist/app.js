@@ -28,7 +28,9 @@ const app = (0, express_1.default)();
 // CORS Configuration
 const corsOptions = {
     origin: "https://btix-frontend.vercel.app", // أو مصفوفة فيها الموقع بتاعك
-    credentials: true, // ⬅️ مهم علشان الكوكي يتبعت
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
 };
 app.use((0, cors_1.default)(corsOptions));
 app.set('trust proxy', true);
