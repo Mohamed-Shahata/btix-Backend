@@ -26,19 +26,9 @@ const generalLimiter_1 = require("./middlewares/generalLimiter");
 (0, dotenv_1.config)();
 const app = (0, express_1.default)();
 // CORS Configuration
-const allowedOrigins = [
-    "https://btix-frontend.vercel.app"
-];
 const corsOptions = {
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        }
-        else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true
+    origin: "https://btix-frontend.vercel.app", // أو مصفوفة فيها الموقع بتاعك
+    credentials: true, // ⬅️ مهم علشان الكوكي يتبعت
 };
 app.use((0, cors_1.default)(corsOptions));
 app.set('trust proxy', true);

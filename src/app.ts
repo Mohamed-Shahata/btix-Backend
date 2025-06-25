@@ -25,19 +25,9 @@ config();
 const app = express();
 
 // CORS Configuration
-const allowedOrigins = [
-  "https://btix-frontend.vercel.app"
-];
-
 const corsOptions = {
-  origin: function (origin: any, callback: any) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true
+  origin: "https://btix-frontend.vercel.app", // أو مصفوفة فيها الموقع بتاعك
+  credentials: true, // ⬅️ مهم علشان الكوكي يتبعت
 };
 
 app.use(cors(corsOptions));
