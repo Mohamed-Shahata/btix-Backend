@@ -27,8 +27,7 @@ const generalLimiter_1 = require("./middlewares/generalLimiter");
 const app = (0, express_1.default)();
 // CORS Configuration
 const allowedOrigins = [
-    "https://btix-frontend.vercel.app",
-    "http://localhost:3000"
+    "https://btix-frontend.vercel.app"
 ];
 const corsOptions = {
     origin: function (origin, callback) {

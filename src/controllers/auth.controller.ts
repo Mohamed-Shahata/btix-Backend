@@ -93,7 +93,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 export const logout = async (req: Request, res: Response): Promise<void> => {
   res.clearCookie(ACCESS_TOKEN, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === PRODUCTION,
+    secure: true,
     sameSite: "none"
   });
 

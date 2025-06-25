@@ -26,8 +26,7 @@ const app = express();
 
 // CORS Configuration
 const allowedOrigins = [
-  "https://btix-frontend.vercel.app",
-  "http://localhost:3000"
+  "https://btix-frontend.vercel.app"
 ];
 
 const corsOptions = {
