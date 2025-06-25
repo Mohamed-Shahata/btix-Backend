@@ -47,11 +47,10 @@ router.get("/myTeam", auth_middleware_1.auth, (0, express_async_handler_1.defaul
 router.put("/join/:teamId", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRoles)(user_enum_1.RolesType.MEMBER), (0, express_async_handler_1.default)(teamController.joinTeam));
 router.put("/leave/:teamId", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRoles)(user_enum_1.RolesType.MEMBER), (0, express_async_handler_1.default)(teamController.leaveTeam));
 router.get("/:teamId/requests", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRolesTeam)(user_enum_1.RolesTeam.LEADER), (0, express_async_handler_1.default)(teamController.getRequestJoinTeam));
-router.get("/:teamId/requests", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRolesTeam)(user_enum_1.RolesTeam.LEADER), (0, express_async_handler_1.default)(teamController.getRequestJoinTeam));
-router.get("/requests/me", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRoles)(user_enum_1.RolesType.MEMBER, user_enum_1.RolesType.ADMIN), (0, express_async_handler_1.default)(teamController.getAllJoinRequestWithMe));
+router.get("/requests/me", auth_middleware_1.auth, (0, express_async_handler_1.default)(teamController.getAllJoinRequestWithMe));
 router.post("/:teamId/requests/:requestId/accept", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRolesTeam)(user_enum_1.RolesTeam.LEADER), (0, express_async_handler_1.default)(teamController.acceptJoinTeam));
 router.post("/:teamId/requests/:requestId/reject", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRolesTeam)(user_enum_1.RolesTeam.LEADER), (0, express_async_handler_1.default)(teamController.rejectJoinTeam));
 router.get("/:id", auth_middleware_1.auth, (0, express_async_handler_1.default)(teamController.getTeam));
-router.get("/", (0, express_async_handler_1.default)(teamController.getAllTeam));
+router.get("/", auth_middleware_1.auth, (0, express_async_handler_1.default)(teamController.getAllTeam));
 router.delete("/:id", auth_middleware_1.auth, (0, auth_middleware_1.authorizedRolesTeam)(user_enum_1.RolesTeam.LEADER), (0, express_async_handler_1.default)(teamController.deleteTeam));
 exports.default = router;

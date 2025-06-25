@@ -52,9 +52,13 @@ exports.CheckAccountOwner = CheckAccountOwner;
 const authorizedRolesTeam = (...roles) => {
     return async (req, res, next) => {
         const user = await user_model_1.default.findById(req.user?.id);
-        if (!user)
+        if (!user) {
             throw new errorHandlerClass_1.AppError(constant_1.USER_NOT_FOUND, statusCode_1.Status.NOT_FOUND);
-        if (!roles.includes(user?.roleInTeam)) {
+        }
+        if (user.role === user_enum_1.RolesType.ADMIN) {
+            return next();
+        }
+        if (!roles.includes(user.roleInTeam)) {
             throw new errorHandlerClass_1.AppError("Access denied", statusCode_1.Status.FORBIDDEN);
         }
         next();

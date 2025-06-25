@@ -9,7 +9,7 @@ declare global {
       id: string;
       role: string;
       token?: string;
-      isNewUser?: boolean; // لو التوكن بيترجع مع req.user
+      isNewUser?: boolean;
     }
 
     interface Request {

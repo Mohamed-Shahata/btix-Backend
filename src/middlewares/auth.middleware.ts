@@ -59,7 +59,7 @@ export const authorizedRolesTeam = (...roles: Array<string | null>) => {
       throw new AppError(USER_NOT_FOUND, Status.NOT_FOUND);
     }
 
-    
+
     if (user.role === RolesType.ADMIN) {
       return next();
     }
