@@ -11,7 +11,6 @@ import bcrypt from "bcryptjs";
 import { randomBytes } from "crypto";
 import { sendMail } from "../utils/mailer";
 
-
 export const register = async (req: Request, res: Response): Promise<void> => {
 
   const result = registerSchema.safeParse(req.body);
