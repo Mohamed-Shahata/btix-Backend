@@ -51,7 +51,7 @@ router.get(
 router.get(
   "/requests/me",
   auth,
-  authorizedRoles(RolesType.MEMBER, RolesType.ADMIN),
+  authorizedRoles(RolesType.MEMBER, RolesType.ADMIN,RolesType.LEADER),
   expressAsyncHandler(teamController.getAllJoinRequestWithMe)
 );
 
