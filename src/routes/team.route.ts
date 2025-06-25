@@ -71,7 +71,7 @@ router.get(
 
 router.get(
   "/",
-  expressAsyncHandler(teamController.getAllTeam)
+ auth, expressAsyncHandler(teamController.getAllTeam)
 );
 
 router.delete(
