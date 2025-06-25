@@ -9,19 +9,21 @@ const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 exports.registerLimiter = (0, express_rate_limit_1.default)({
     windowMs: 60 * 60 * 1000,
     max: 10,
-    message: "Too many registration attempts. Try again after 1 hour.",
-    standardHeaders: true,
-    legacyHeaders: false,
+    standardHeaders: true, // بيستخدم الـ headers الحديثة (مثل X-Forwarded-For)
+    legacyHeaders: false, // يمنع headers القديمة
+    message: 'Too many requests, please try again later.',
 });
 exports.loginLimiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000,
     max: 5,
-    message: "Too many login attempts. Please try again later.",
-    standardHeaders: true,
-    legacyHeaders: false,
+    standardHeaders: true, // بيستخدم الـ headers الحديثة (مثل X-Forwarded-For)
+    legacyHeaders: false, // يمنع headers القديمة
+    message: 'Too many requests, please try again later.',
 });
 exports.forgotPasswordLimiter = (0, express_rate_limit_1.default)({
     windowMs: 60 * 60 * 1000,
     max: 3,
-    message: "Too many reset attempts. Please wait before retrying.",
+    standardHeaders: true, // بيستخدم الـ headers الحديثة (مثل X-Forwarded-For)
+    legacyHeaders: false, // يمنع headers القديمة
+    message: 'Too many requests, please try again later.',
 });
