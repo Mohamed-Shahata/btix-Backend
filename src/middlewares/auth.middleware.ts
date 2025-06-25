@@ -12,6 +12,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.cookies.accessToken;
 
+    console.log(token)
     if (!token)
       return next(new AppError("Token format invalid", Status.UNAUTHORIZED))
 
