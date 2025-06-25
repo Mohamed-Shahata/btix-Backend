@@ -14,9 +14,9 @@ import errorHandler from "./utils/errorHandler";
 import "./cronJobs/deleteOld";
 import './config/passport';
 import helmet from "helmet";
-import rateLimiter from "express-rate-limit";
 import compression from "compression";
 import path from "path";
+import { generalLimiter } from "./middlewares/generalLimiter";
 
 
 connextion_db();
@@ -45,14 +45,9 @@ app.use(cors(corsOptions));
 
 
 app.set('trust proxy', 1);
-const limiter = rateLimiter({
-  windowMs: 15 * 60 * 1000,
-  max: 100
-})
 
 
 // Middlewares
-app.use(limiter);
 app.use(compression())
 app.use(helmet());
 app.use(express.json());
@@ -65,12 +60,12 @@ app.set("views", path.join(__dirname, "templates"));
 
 // Routes
 app.use("/auth", authRoutes);
-app.use("/users", usersRoutes);
-app.use("/teams", teamsRoutes);
-app.use("/marathons", marathonsRoutes);
-app.use("/challenges", challengesRoutes);
-app.use("/submissions", submissionsRoutes);
-app.use("/leaderboards", leaderboardsRoutes);
+app.use("/users", generalLimiter, usersRoutes);
+app.use("/teams", generalLimiter, teamsRoutes);
+app.use("/marathons", generalLimiter, marathonsRoutes);
+app.use("/challenges", generalLimiter, challengesRoutes);
+app.use("/submissions", generalLimiter, submissionsRoutes);
+app.use("/leaderboards", generalLimiter, leaderboardsRoutes);
 
 // Error Handler
 app.use(errorHandler);

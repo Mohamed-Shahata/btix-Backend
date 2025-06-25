@@ -41,10 +41,12 @@ const authController = __importStar(require("../controllers/auth.controller"));
 const express_async_handler_1 = __importDefault(require("express-async-handler"));
 const passport_1 = __importDefault(require("passport"));
 const auth_middleware_1 = require("../middlewares/auth.middleware");
+const constant_1 = require("../utils/constant");
+const rateLimiters_1 = require("../middlewares/rateLimiters");
 const router = (0, express_1.Router)();
-router.post("/register", (0, express_async_handler_1.default)(authController.register));
-router.post("/verificationCode", (0, express_async_handler_1.default)(authController.vrificationCode));
-router.post("/login", (0, express_async_handler_1.default)(authController.login));
+router.post("/register", rateLimiters_1.registerLimiter, (0, express_async_handler_1.default)(authController.register));
+router.post("/verificationCode", rateLimiters_1.registerLimiter, (0, express_async_handler_1.default)(authController.vrificationCode));
+router.post("/login", rateLimiters_1.loginLimiter, (0, express_async_handler_1.default)(authController.login));
 router.post("/logout", (0, express_async_handler_1.default)(authController.logout));
 router.post("/changePassword", auth_middleware_1.auth, (0, express_async_handler_1.default)(authController.challengePassword));
 router.get('/google', passport_1.default.authenticate('google', { scope: ['profile', 'email'] }));
@@ -54,11 +56,17 @@ router.get('/google/callback', passport_1.default.authenticate('google', {
 }), (req, res) => {
     const { token, isNewUser } = req.user;
     console.log(isNewUser);
+    res.cookie(constant_1.ACCESS_TOKEN, token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    });
     if (isNewUser) {
-        return res.redirect(`${process.env.CLIENT_ORIGIN}/updatePassword?token=${token}`);
+        return res.redirect(`${process.env.CLIENT_ORIGIN}/updatePassword`);
     }
-    res.redirect(`${process.env.CLIENT_ORIGIN}/google/callback?token=${token}`);
+    res.redirect(`${process.env.CLIENT_ORIGIN}/google/callback`);
 });
-router.post("/forgot-password", (0, express_async_handler_1.default)(authController.forgotPassword));
+router.post("/forgot-password", rateLimiters_1.forgotPasswordLimiter, (0, express_async_handler_1.default)(authController.forgotPassword));
 router.post("/reset-password/:userId/:token", (0, express_async_handler_1.default)(authController.resetPassword));
 exports.default = router;

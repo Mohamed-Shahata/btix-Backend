@@ -167,6 +167,8 @@ const acceptJoinTeam = async (req, res) => {
         throw new errorHandlerClass_1.AppError("Team Not Found", statusCode_1.Status.NOT_FOUND);
     if (!request)
         throw new errorHandlerClass_1.AppError("Request Not Found", statusCode_1.Status.NOT_FOUND);
+    if (team.members.length >= team.maxMembers)
+        throw new errorHandlerClass_1.AppError("Team is full", statusCode_1.Status.BAD_REQUEST);
     team.members.push(user?._id);
     team.save();
     user.teamId = team._id;

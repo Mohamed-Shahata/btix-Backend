@@ -19,9 +19,9 @@ const errorHandler_1 = __importDefault(require("./utils/errorHandler"));
 require("./cronJobs/deleteOld");
 require("./config/passport");
 const helmet_1 = __importDefault(require("helmet"));
-const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const compression_1 = __importDefault(require("compression"));
 const path_1 = __importDefault(require("path"));
+const generalLimiter_1 = require("./middlewares/generalLimiter");
 (0, db_connection_1.default)();
 (0, dotenv_1.config)();
 const app = (0, express_1.default)();
@@ -43,12 +43,7 @@ const corsOptions = {
 };
 app.use((0, cors_1.default)(corsOptions));
 app.set('trust proxy', 1);
-const limiter = (0, express_rate_limit_1.default)({
-    windowMs: 15 * 60 * 1000,
-    max: 100
-});
 // Middlewares
-app.use(limiter);
 app.use((0, compression_1.default)());
 app.use((0, helmet_1.default)());
 app.use(express_1.default.json());
@@ -58,12 +53,12 @@ app.set("view engine", "ejs");
 app.set("views", path_1.default.join(__dirname, "templates"));
 // Routes
 app.use("/auth", auth_route_1.default);
-app.use("/users", user_route_1.default);
-app.use("/teams", team_route_1.default);
-app.use("/marathons", marathon_route_1.default);
-app.use("/challenges", challenge_route_1.default);
-app.use("/submissions", submission_route_1.default);
-app.use("/leaderboards", leaderboard_route_1.default);
+app.use("/users", generalLimiter_1.generalLimiter, user_route_1.default);
+app.use("/teams", generalLimiter_1.generalLimiter, team_route_1.default);
+app.use("/marathons", generalLimiter_1.generalLimiter, marathon_route_1.default);
+app.use("/challenges", generalLimiter_1.generalLimiter, challenge_route_1.default);
+app.use("/submissions", generalLimiter_1.generalLimiter, submission_route_1.default);
+app.use("/leaderboards", generalLimiter_1.generalLimiter, leaderboard_route_1.default);
 // Error Handler
 app.use(errorHandler_1.default);
 exports.default = app;

@@ -10,12 +10,7 @@ import { USER_NOT_FOUND } from "../utils/constant";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader?.startsWith("Bearer "))
-      return next(new AppError("No token provided", Status.UNAUTHORIZED))
-
-    const token = authHeader?.split(" ")[1];
+    const token = req.cookies.accessToken;
 
     if (!token)
       return next(new AppError("Token format invalid", Status.UNAUTHORIZED))

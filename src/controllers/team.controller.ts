@@ -226,6 +226,10 @@ export const acceptJoinTeam = async (req: Request, res: Response) => {
   if (!request)
     throw new AppError("Request Not Found", Status.NOT_FOUND);
 
+  if (team.members.length >= team.maxMembers)
+    throw new AppError("Team is full", Status.BAD_REQUEST);
+
+
   team.members.push(user?._id as Schema.Types.ObjectId);
   team.save();
 
