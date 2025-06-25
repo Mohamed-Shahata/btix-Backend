@@ -55,11 +55,19 @@ export const CheckAccountOwner = (req: Request, res: Response, next: NextFunctio
 export const authorizedRolesTeam = (...roles: Array<string | null>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const user = await User.findById(req.user?.id);
-    if (!user)
-      throw new AppError(USER_NOT_FOUND, Status.NOT_FOUND)
-    if (!roles.includes(user?.roleInTeam)) {
-      throw new AppError("Access denied", Status.FORBIDDEN)
+    if (!user) {
+      throw new AppError(USER_NOT_FOUND, Status.NOT_FOUND);
     }
+
+    
+    if (user.role === RolesType.ADMIN) {
+      return next();
+    }
+
+    if (!roles.includes(user.roleInTeam)) {
+      throw new AppError("Access denied", Status.FORBIDDEN);
+    }
+
     next();
-  }
+  };
 };
