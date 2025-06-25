@@ -42,11 +42,11 @@ const express_async_handler_1 = __importDefault(require("express-async-handler")
 const passport_1 = __importDefault(require("passport"));
 const auth_middleware_1 = require("../middlewares/auth.middleware");
 const constant_1 = require("../utils/constant");
-const rateLimiters_1 = require("../middlewares/rateLimiters");
+// import { forgotPasswordLimiter, loginLimiter, registerLimiter } from "../middlewares/rateLimiters";
 const router = (0, express_1.Router)();
-router.post("/register", rateLimiters_1.registerLimiter, (0, express_async_handler_1.default)(authController.register));
-router.post("/verificationCode", rateLimiters_1.registerLimiter, (0, express_async_handler_1.default)(authController.vrificationCode));
-router.post("/login", rateLimiters_1.loginLimiter, (0, express_async_handler_1.default)(authController.login));
+router.post("/register", (0, express_async_handler_1.default)(authController.register));
+router.post("/verificationCode", (0, express_async_handler_1.default)(authController.vrificationCode));
+router.post("/login", (0, express_async_handler_1.default)(authController.login));
 router.post("/logout", (0, express_async_handler_1.default)(authController.logout));
 router.post("/changePassword", auth_middleware_1.auth, (0, express_async_handler_1.default)(authController.challengePassword));
 router.get('/google', passport_1.default.authenticate('google', { scope: ['profile', 'email'] }));
@@ -67,6 +67,6 @@ router.get('/google/callback', passport_1.default.authenticate('google', {
     }
     res.redirect(`${process.env.CLIENT_ORIGIN}/google/callback`);
 });
-router.post("/forgot-password", rateLimiters_1.forgotPasswordLimiter, (0, express_async_handler_1.default)(authController.forgotPassword));
+router.post("/forgot-password", (0, express_async_handler_1.default)(authController.forgotPassword));
 router.post("/reset-password/:userId/:token", (0, express_async_handler_1.default)(authController.resetPassword));
 exports.default = router;

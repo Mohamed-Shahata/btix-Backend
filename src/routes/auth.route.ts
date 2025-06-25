@@ -4,16 +4,16 @@ import expressAsyncHandler from "express-async-handler";
 import passport from "passport";
 import { auth } from "../middlewares/auth.middleware";
 import { ACCESS_TOKEN } from "../utils/constant";
-import { forgotPasswordLimiter, loginLimiter, registerLimiter } from "../middlewares/rateLimiters";
+// import { forgotPasswordLimiter, loginLimiter, registerLimiter } from "../middlewares/rateLimiters";
 
 const router = Router();
 
 
-router.post("/register", registerLimiter, expressAsyncHandler(authController.register));
+router.post("/register", expressAsyncHandler(authController.register));
 
-router.post("/verificationCode", registerLimiter, expressAsyncHandler(authController.vrificationCode));
+router.post("/verificationCode", expressAsyncHandler(authController.vrificationCode));
 
-router.post("/login", loginLimiter, expressAsyncHandler(authController.login));
+router.post("/login", expressAsyncHandler(authController.login));
 
 router.post("/logout", expressAsyncHandler(authController.logout));
 
@@ -52,7 +52,7 @@ router.get(
 );
 
 
-router.post("/forgot-password", forgotPasswordLimiter, expressAsyncHandler(authController.forgotPassword));
+router.post("/forgot-password", expressAsyncHandler(authController.forgotPassword));
 
 router.post("/reset-password/:userId/:token", expressAsyncHandler(authController.resetPassword));
 
