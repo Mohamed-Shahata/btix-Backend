@@ -13,7 +13,7 @@ const constant_1 = require("../utils/constant");
 const auth = async (req, res, next) => {
     try {
         const token = req.cookies.accessToken;
-        console.log(token);
+        console.log(req.cookies);
         if (!token)
             return next(new errorHandlerClass_1.AppError("Token format invalid", statusCode_1.Status.UNAUTHORIZED));
         const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
