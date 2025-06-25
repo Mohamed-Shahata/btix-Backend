@@ -13,6 +13,7 @@ const constant_1 = require("../utils/constant");
 const auth = async (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;
+        console.log(authHeader);
         if (!authHeader?.startsWith("Bearer "))
             return next(new errorHandlerClass_1.AppError("No token provided", statusCode_1.Status.UNAUTHORIZED));
         const token = authHeader?.split(" ")[1];

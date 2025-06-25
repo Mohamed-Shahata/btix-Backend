@@ -12,6 +12,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.headers.authorization;
 
+    console.log(authHeader)
     if (!authHeader?.startsWith("Bearer "))
       return next(new AppError("No token provided", Status.UNAUTHORIZED))
 
