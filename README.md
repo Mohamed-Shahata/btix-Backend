@@ -122,6 +122,7 @@ npm start
 
 ## 📬 Contact
 
-**Author:** Mohamed  
-**Email:** [your-email@example.com]  
+**Author:** Mohamed Shehata 
+**Email:** [mohamedmrslan@gmail.com]  
 **License:** ISC
+
